@@ -4,11 +4,11 @@ import stateQuery
 import csv
 import requests
 
-# open_trials = stateQuery.get_state_trials()
-# closed_trials = stateQuery.get_closed_trials()
-# trials = open_trials + closed_trials
-# print "Open trials: ", len(open_trials)
-# print "Closed trials: ", len(closed_trials)
+open_trials = stateQuery.get_state_trials()
+closed_trials = stateQuery.get_closed_trials()
+trials = open_trials + closed_trials
+print "Open trials: ", len(open_trials)
+print "Closed trials: ", len(closed_trials)
 
 # Calculate sponsor rankings and write them to a csv file
 def sponsors_impact(sponsors_ctrials):
@@ -74,6 +74,7 @@ def trials_to_csv(trials):
 			trial.published = published
 			trial.locations = locations
 			try: 
+				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed
 				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed])
 				if sponsor not in sponsor_to_trials:
 					sponsor_to_trials[sponsor] = []
@@ -83,8 +84,8 @@ def trials_to_csv(trials):
 				continue
 
 
-#trials_to_csv(trials)
-test_sponsors_impact()
+trials_to_csv(trials)
+#test_sponsors_impact()
 
 
 		

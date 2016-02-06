@@ -84,7 +84,6 @@ def get_state_trials():
 
 	# clinical trial object list
 	clinical_meta_list = []
-
 	# loop through list of state's trials
 	for i in range(0, len(trialsList)):
 		# Get the corresponding state's trials
@@ -100,10 +99,12 @@ def get_state_trials():
 			state = states_abbrev[i]
 			# sponsor = line
 			url = trial['url']
-			last_change = trial['last_changed']
+			last_changed = trial['last_changed']
 			title = trial['title']
 			condition = trial['condition_summary']
-			intervention = trial['intervention_summary']
+			intervention = None
+			if 'intervention_summary' in trial:
+				intervention = trial['intervention_summary']
 
 			# check if open, or closed
 			is_closed = trial['status']['open']
@@ -113,8 +114,13 @@ def get_state_trials():
 				is_closed = False
 
 			# Create a ClinicalTrial Object to hold relevant data
+<<<<<<< HEAD
 			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, is_closed, title, last_changed, intervention)
 
+=======
+			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, last_changed)
+			
+>>>>>>> c9b87203ad3939fe99de99790709fdf0227d6f98
 			# Add object to a list
 			clinical_meta_list.append(clinical_meta_data)
 
@@ -170,6 +176,10 @@ def get_sponsor_trials():
 					# Create a ClinicalTrial Object to hold relevant data
 					clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
 
+
+					# Create a ClinicalTrial Object to hold relevant data
+					clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, last_changed)
+					
 					# Add object to a list
 					clinical_meta_list.append(clinical_meta_data)
 
@@ -191,9 +201,15 @@ def get_closed_trials():
 			# Get the trial ID, url
 			nct_id = trial['nct_id']
 			url = trial['url']
+			title = trial['title']
+			condition = trial['condition_summary']
+			intervention = None
+			if 'intervention_summary' in trial:
+				intervention = trial['intervention_summary']
+			last_changed = trial['last_changed']
 
 			# Create a ClinicalTrial Object to hold relevant data
-			clinical_trial = ClinicalTrial(nct_id, None, None, state, url, False)
+			clinical_trial = ClinicalTrial(nct_id, None, None, state, url, False, title, condition, intervention, last_changed)
 			
 			# Add object to a list
 			clinical_trials.append(clinical_trial)

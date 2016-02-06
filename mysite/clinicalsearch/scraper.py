@@ -5,7 +5,7 @@ import stateQuery
 import csv
 import requests
 
-open_trials = stateQuery.get_clinical_objects()
+open_trials = stateQuery.get_state_trials()
 closed_trials = stateQuery.get_closed_trials()
 trials = open_trials + closed_trials
 sponsors_to_trials = {}
@@ -44,14 +44,14 @@ def sponsors_impact(sponsors_ctrials_dict):
 
 		clinicaltrials = sponsors_ctrials_dict[sponsor]
 		for trial in clinicaltrials:
-			if trial.published:
-				num_completed_results += 1
 			if trial.closed:
 				num_completed += 1
+				if trial.published:
+					num_completed_results += 1
 			else:
 				num_ongoing += 1
 
-		sponsors_impact_dict[i] = num_completed_results/(float)num_completed
+		sponsors_impact_dict[i] = num_completed_results/float(num_completed)
 
 	return sponsors_impact_dict
 

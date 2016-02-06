@@ -6,6 +6,7 @@ import requests
 
 urls = ["https://clinicaltrials.gov/ct2/show/study/NCT00456326"]
 trials = []
+
 for url in urls:
 	r = requests.get(url)
 	soup = BeautifulSoup(r.text, "html.parser")

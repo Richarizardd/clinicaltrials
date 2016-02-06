@@ -18,7 +18,9 @@ states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
 		 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas',
 		 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
-COUNT = 2 # the number of trials we want to query
+COUNT = 10 # the number of trials we want to query
+
+TRIALS_LIST = []
 
 # 01: Function to query number of recruiting clinical trials for each state
 def fill_states():
@@ -26,9 +28,6 @@ def fill_states():
 	t = Trials()
 	jsonList = {} 	# json list to store number of trials/state
 	trialsList = []	# list to store all 50 state's active clinical trials
-	
-	# clinical trial object list
-	clinical_meta_list = []
 
 	for index in range(0, len(states_abbrev)):
 		trials = t.search(recruiting='open', count=COUNT, state=states_abbrev[index])['search_results']['clinical_study']
@@ -42,9 +41,39 @@ def fill_states():
 		# create a whole number of lists for passing in urls/etc.
 		trialsList.append(trials) 
 
-	print "Length of trials list: ", len(trialsList)
+	TRIALS_LIST = trialsList
+	print "Length of trials list: ", len(trialsList)			
+			# print trial.keys()
+			# keys: status, title, url, last_changed, score, condition_summary, order, nct_id
 
+		# print len(clinical_meta_list)
+		# print clinical_meta_list[0]
+		# print clinical_meta_list[0].id
+		# print json.dumps(trialsList[i], indent=4)
+
+	print "Success in fill_states!"
+
+	return jsonList
+
+# 02: Function to return clinical trial meta data for a certain state
+def get_recruitment_data(state):
+	# create a clinical trials object for searching
+	t = Trials()
+	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
+
+	print "Success in calling get_recruitment_data!"
+
+	return (recruiting_trials)
+
+# 03: Function to help populate db with clinicaltrial objects
+def get_clinical_objects():
+	trialsList = TRIALS_LIST
+	# clinical trial object list
+	clinical_meta_list = []
+
+	# loop through list of state's trials
 	for i in range(0, len(trialsList)):
+		# Get the corresponding state's trials
 		stateTrials = trialsList[i]
 
 		# loop through each state's trials
@@ -62,29 +91,5 @@ def fill_states():
 			
 			# Add object to a list
 			clinical_meta_list.append(clinical_meta_data)
-			
-			# print trial.keys()
-			# keys: status, title, url, last_changed, score, condition_summary, order, nct_id
 
-		# print len(clinical_meta_list)
-		# print clinical_meta_list[0]
-		# print clinical_meta_list[0].id
-		# print json.dumps(trialsList[i], indent=4)
-
-	print "Success in fill_states!"
-
-	return jsonList
-
-# Function to return clinical trial meta data for a certain state
-def get_recruitment_data(state):
-	# create a clinical trials object for searching
-	t = Trials()
-	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
-
-	print "Success in calling get_recruitment_data!"
-
-	return (recruiting_trials)
-
-
-
-
+	return clinical_meta_list

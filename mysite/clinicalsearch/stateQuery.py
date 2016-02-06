@@ -68,6 +68,17 @@ def get_recruitment_data(state):
 # 03: Function to help populate db with clinicaltrial objects
 def get_clinical_objects():
 	trialsList = TRIALS_LIST
+	
+	# create a clinical trials object for searching
+	t = Trials()
+	trialsList = []	# list to store all 50 state's active clinical trials
+
+	for index in range(0, len(states_abbrev)):
+		trials = t.search(recruiting='open', count=COUNT, state=states_abbrev[index])['search_results']['clinical_study']
+
+		# create a whole number of lists for passing in urls/etc.
+		trialsList.append(trials) 
+
 	# clinical trial object list
 	clinical_meta_list = []
 

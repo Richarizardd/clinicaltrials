@@ -114,13 +114,9 @@ def get_state_trials():
 				is_closed = False
 
 			# Create a ClinicalTrial Object to hold relevant data
-<<<<<<< HEAD
-			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, is_closed, title, last_changed, intervention)
 
-=======
-			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, last_changed)
-			
->>>>>>> c9b87203ad3939fe99de99790709fdf0227d6f98
+			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, is_closed, title, intervention, last_changed)
+
 			# Add object to a list
 			clinical_meta_list.append(clinical_meta_data)
 
@@ -163,7 +159,11 @@ def get_sponsor_trials():
 					url = trial['url']
 					title = trial['title']
 					condition = trial['condition_summary']
-					intervention = trial['intervention_summary']
+					try:
+						intervention = trial['intervention_summary']
+					except:
+						intervention = None
+
 					last_changed = trial['last_changed']
 
 					# check if open, or closed
@@ -174,11 +174,10 @@ def get_sponsor_trials():
 						is_closed = False
 
 					# Create a ClinicalTrial Object to hold relevant data
-					clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
-
+					# clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
 
 					# Create a ClinicalTrial Object to hold relevant data
-					clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, last_changed)
+					clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, True, title, condition, intervention, last_changed)
 					
 					# Add object to a list
 					clinical_meta_list.append(clinical_meta_data)

@@ -13,9 +13,8 @@ class ClinicalTrial(models.Model):
 	locations = models.TextField()
 	last_changed = models.TextField()
 
-    # def set_locations(self, x):
-    #     self.locations = json.dumps(x)
-
-    # def get_locations(self):
-    #     return json.loads(self.locations)
-
+class Contact(models.Model):
+	contact_name = models.CharField(max_length=200)
+	contact_phone = models.CharField(max_length=15)
+	contact_email = models.CharField(max_length=30)
+	content = models.TextField()

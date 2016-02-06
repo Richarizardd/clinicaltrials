@@ -7,3 +7,6 @@ class ClinicalTrial(models.Model):
 	state = models.TextField()
 	url = models.TextField()
 	closed = models.BooleanField()
+	title = models.TextField()
+	last_changed = models.TextField()
+	intervention = models.TextField()

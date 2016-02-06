@@ -176,12 +176,7 @@ def get_sponsor_trials():
 					# clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
 
 					# Create a ClinicalTrial Object to hold relevant data
-<<<<<<< HEAD
 					clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, None, last_changed)
-=======
-					clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, True, title, condition, intervention, last_changed)
->>>>>>> 44199b08e7c1742a89d96e47285b91d3dc101aaa
-					
 					# Add object to a list
 					clinical_meta_list.append(clinical_meta_data)
 

@@ -1,16 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import Template
+from django.conf import settings
 
-
-import json, sys, cgi
+import json, sys, cgi, os
 
 # IMPORT OUR PYTHON SCRIPTS
-from stateQuery import get_recruitment_data, fill_states
+from stateQuery import get_recruitment_data, fill_states, get_sponsor_trials
 
 # Create your views here.
 def index(request):
 	jsonList = fill_states()
+	get_sponsor_trials()
 
 	return render(request, 'clinicalsearch/index.html', {'datum': jsonList})
 

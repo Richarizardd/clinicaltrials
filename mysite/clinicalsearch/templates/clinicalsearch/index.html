@@ -31,7 +31,7 @@
     		done: function(map) {
     			map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
     				var m = {};
-    				m[geography.id] = 'black';
+    				m[geography.id] = 'green';
     				map.updateChoropleth(m);
     				// console.log(m);
     				// console.log(geography.id); //geography.id is like TX

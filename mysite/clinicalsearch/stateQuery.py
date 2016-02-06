@@ -20,11 +20,8 @@ states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
 		 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas',
 		 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
-<<<<<<< HEAD
 COUNT = 2 # the number of trials we want to query
-=======
-COUNT = 250 # the number of trials we want to query
->>>>>>> e42040f77b5aafcd0211f271d04cd675bf68e630
+
 
 # TRIALS_LIST = []
 
@@ -116,7 +113,7 @@ def get_state_trials():
 
 	return clinical_meta_list
 
-<<<<<<< HEAD
+
 # 04: Function to return a list of trials by sponsor (restricted to USA for now)
 def get_sponsor_trials():
 	trialList = [] # initialize return list
@@ -166,7 +163,6 @@ def get_sponsor_trials():
 
 
 
-=======
 # Gets closed trials for each state
 def get_closed_trials():
 	t = Trials()
@@ -185,5 +181,5 @@ def get_closed_trials():
 			clinical_trials.append(clinical_trial)
 
 	return clinical_trials
->>>>>>> e42040f77b5aafcd0211f271d04cd675bf68e630
+
 

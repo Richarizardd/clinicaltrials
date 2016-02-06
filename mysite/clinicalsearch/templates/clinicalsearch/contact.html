@@ -8,6 +8,16 @@
     <h1 class="text-center">Contact Form</h1>
     <h2 class="text-center subtitle">Leave your information so clinical trials can get in touch with you!</h2>
 
+    <!-- Dynamic function to show user that they submitted form correctly -->
+    {% if error == 1 %}
+      Error In Sending Message - Try Again!
+    {% elif error == 2 %}
+      <script>
+        alert("Successfully submitted form!")
+      </script>
+    {% else %}
+    {% endif %}
+
     <!-- Form area -->
     <form class="form-horizontal" role="form" method="post" action="">
       {% csrf_token %}
@@ -22,6 +32,12 @@
         <label for="id_contact_email" class="col-sm-2 control-label">{{ form.fields.contact_email.label }}</label>
         <div class="col-sm-10">
           <input type="email" class="form-control" id="id_contact_email" name="contact_email" placeholder="example@domain.com" value="">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="id_contact_phone" class="col-sm-2 control-label">{{ form.fields.contact_phone.label }}</label>
+        <div class="col-sm-10">
+          <input type="phone" class="form-control" id="id_contact_phone" name="contact_phone" placeholder="(xxx) xxx-xxxx" value="">
         </div>
       </div>
       <div class="form-group">

@@ -1,6 +1,10 @@
 # clinicaltrials
 Hophacks hackathon with Adam Li, Richard Chen and Daniel Chen.
 
+admin:
+clinicalsearch
+health
+
 References:
 * http://datamaps.github.io/
 * https://clinicaltrials.gov/

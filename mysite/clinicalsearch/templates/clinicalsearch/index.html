@@ -18,12 +18,6 @@
 	<script>
 	var initialdatum = {{ datum|safe }}
 	
-	// try {
-	// 	var datum = {{ data|safe }};
-	// }
-	// catch(e){
-	// 	console.log(e);
-	// }
 	// 	//create a datamap with d3.js and datamaps.js
 		var map = new Datamap({
 			element: document.getElementById('map'),	//get html element
@@ -42,16 +36,26 @@
     				// console.log(m);
     				// console.log(geography.id); //geography.id is like TX
 
+    				//ajax call to get clinical info based on state click
     				$.ajax({
 						type:'get',
 						url: 'api/getstatedata/',
 						cache: false,
 						async: true,
+						data: {state: geography.id},
 						success: function(localdata) {
-							console.log((localdata));
+							//convert local data to json
+							localdata = JSON.parse(localdata)
+
+							var test = document.createElement("p");
+							var header = document.createTextNode("This is the results!");
+							test.appendChild(header);
+							var body = document.createTextNode(JSON.stringify(localdata, null, 2) + "break!!!****" + JSON.stringify(localdata[0]) + typeof(localdata));
+							test.appendChild(body)
+							document.body.appendChild(test);
 						},
 						error:function(localdata) {
-							
+							console.log("Error in Ajax Call!")
 					    }
 					});
     			})

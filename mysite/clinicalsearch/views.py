@@ -17,14 +17,12 @@ def index(request):
 
 def stateAPI(request):
 	if request.is_ajax():
-		data = (get_recruitment_data()) # get data
+		state = request.GET.get('state')
+		data = (get_recruitment_data(state)) # get data
 		html = {'data': data}
 
 	else:
 		print "not working..."
 		html = '<p>This is not ajax!</p>'
-	# print html
-	# print "Break!"
-	# print json.dumps(html)
+
 	return HttpResponse(json.dumps(html['data']))
-	# return render(request, 'clinicalsearch/index.html', {'data': data})

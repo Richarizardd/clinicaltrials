@@ -12,8 +12,26 @@ from stateQuery import get_recruitment_data, fill_states, get_sponsor_trials
 def index(request):
 	# jsonList = fill_states()
 	# get_sponsor_trials()
+	# jsonList = {"test": "test"}
+	return render(request, 'clinicalsearch/index.html')
+
+def about(request):
+	# jsonList = fill_states()
+	# get_sponsor_trials()
+	# jsonList = {"test": "test"}
+	return render(request, 'clinicalsearch/about.html')
+
+def contact(request):
+	# jsonList = fill_states()
+	# get_sponsor_trials()
+	# jsonList = {"test": "test"}
+	return render(request, 'clinicalsearch/contact.html')
+
+def map(request):
+	# jsonList = fill_states()
+	# get_sponsor_trials()
 	jsonList = {"test": "test"}
-	return render(request, 'clinicalsearch/index.html', {'datum': jsonList})
+	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
 
 
 def stateAPI(request):

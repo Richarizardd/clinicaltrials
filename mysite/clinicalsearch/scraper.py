@@ -1,11 +1,12 @@
 from bs4 import BeautifulSoup
 from clinical_trials import Trials
 from ClinicalTrial import ClinicalTrial
+import stateQuery
 import csv
 import requests
-import models
 
-trials = []
+trials = stateQuery.get_clinical_objects()
+print trials
 for trial in trials:
 	r = requests.get(trial.url)
 	soup = BeautifulSoup(r.text, "html.parser")
@@ -21,8 +22,8 @@ for trial in trials:
 		trial.sponsor = sponsor
 		trial.published = published
 
-# with open('trials.csv', 'w') as csvfile:
-# 	writer = csv.writer(csvfile, delimiter=',')
-# 	for trial in trials:
-# 		writer.writerow([trial.id, trial.sponsor, trial.published, trial.state])
+with open('trials.csv', 'w') as csvfile:
+	writer = csv.writer(csvfile, delimiter=',')
+	for trial in trials:
+		writer.writerow([trial.id, trial.sponsor, trial.published, trial.state])
 

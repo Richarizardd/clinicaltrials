@@ -1,12 +1,16 @@
 class ClinicalTrial:
 	"""Object Clinical Trial"""
 
-	def __init__(self, ID, sponsor, published, state, url):
+	def __init__(self, ID, sponsor, published, state, url, closed, title, last_changed, intervention):
 		self.id = ID 
 		self.sponsor = sponsor
 		self.published = published
 		self.state = state
 		self.url = url
+		self.closed = closed
+		self.title = title
+		self.last_changed = last_changed
+		self.intervention = intervention
 
 # temp = ["Mayo", "BGH", "JHU", "JHU", "BGH", "Mayo", "Mayo", "BGH"]
 # trials = [ClinicalTrial(sponsor) for sponsor in temp]

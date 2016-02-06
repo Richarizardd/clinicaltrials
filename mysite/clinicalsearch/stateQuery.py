@@ -20,10 +20,10 @@ states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
 COUNT = 2 # the number of trials we want to query
 
 # Function to return clinical trial meta data for a certain state
-def get_recruitment_data():
+def get_recruitment_data(state):
 	# create a clinical trials object for searching
 	t = Trials()
-	recruiting_trials = t.search(recruiting='open', count=COUNT)['search_results']['clinical_study']
+	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
 
 	print "Success in calling get_recruitment_data!"
 
@@ -42,5 +42,7 @@ def fill_states():
 
 		# Create the json object to be returned
 		jsonList[state] = {"numTrials": numTrials}
+
+	print "Success in fill_states!"
 
 	return jsonList

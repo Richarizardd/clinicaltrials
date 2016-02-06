@@ -105,9 +105,16 @@ def get_state_trials():
 			condition = trial['condition_summary']
 			intervention = trial['intervention_summary']
 
+			# check if open, or closed
+			is_closed = trial['status']['open']
+			if is_closed == "Y":
+				is_closed = True
+			elif is_closed == "N":
+				is_closed = False
+
 			# Create a ClinicalTrial Object to hold relevant data
-			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True)
-			
+			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, is_closed, title, last_changed, intervention)
+
 			# Add object to a list
 			clinical_meta_list.append(clinical_meta_data)
 
@@ -116,26 +123,29 @@ def get_state_trials():
 
 # 04: Function to return a list of trials by sponsor (restricted to USA for now)
 def get_sponsor_trials():
-	trialList = [] # initialize return list
+	# clinical trial object list
+	clinical_meta_list = []
 
 	sponsorList = [] # list of sponsors from txt file
 
+	# directory of sponsors.txt file
 	main_dir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 	data_file_path = os.path.join(main_dir, 'sponsors.txt')
 		
 	# create a clinical trials object for searching
 	t = Trials()
-	# file_dir = os.path.join(settings.STATIC_ROOT, 'sponsors.txt') 
 
 	# Open local file to get list of sponsors
 	with open(data_file_path, 'r') as file:
 		# loop through each sponsor
 		for line in file:
 			trial_search = t.search(country='US', sponsor=line)
-			if trial_search['search_results']['count'] > 0:
-				print trial_search['search_results']['count']
+			if int(trial_search['search_results']['count']) > 0:
 				trial_results = trial_search['search_results']['clinical_study']
 
+				# convert to list if only single object returned
+				if not isinstance(trial_results, type([])):
+					trial_results = [trial_results]
 				# Loop through each trial for a certain sponsor
 				for i in range(0, len(trial_results)):
 					trial = trial_results[i]
@@ -148,20 +158,28 @@ def get_sponsor_trials():
 					title = trial['title']
 					condition = trial['condition_summary']
 					intervention = trial['intervention_summary']
-					last_change = trial['last_changed']
+					last_changed = trial['last_changed']
+
+					# check if open, or closed
+					is_closed = trial['status']['open']
+					if is_closed == "Y":
+						is_closed = True
+					elif is_closed == "N":
+						is_closed = False
 
 					# Create a ClinicalTrial Object to hold relevant data
-					clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url)
-					
+					clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
+
 					# Add object to a list
 					clinical_meta_list.append(clinical_meta_data)
-			else:
+
+			else: # empty query result
+				print "Emtpy count for: ", line
 				print trial_search['search_results']['count']
 
 			sponsorList.append(line)
 
-
-
+	return clinical_meta_list
 
 # Gets closed trials for each state
 def get_closed_trials():

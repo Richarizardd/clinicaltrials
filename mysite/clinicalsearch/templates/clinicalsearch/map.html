@@ -10,10 +10,21 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 
 	<div id="map" style="position: relative;"></div>
-	<div id="dialog-form" style="position: relative;" title="Clinical List" hidden="hidden">
-		Testing Dialog
+	<div class="modal" id="trials" role="dialog">
+	    <div class="modal-dialog">
+
+	      	<div class="modal-content">
+		        <div class="modal-header" style="padding:35px 50px;">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4>Trials</h4>
+		        </div>
+		        <div class="modal-body" style="padding:40px 50px;">
+		          <p>Hello World</p>
+		        </div>
+	      	</div>
+	      
+	    </div>
 	</div>
-	<button id="opener">open the dialog</button>
 	<script>
 		$(function() {
 			var dialog
@@ -90,13 +101,14 @@
 			$.ajax({
 				type:'get',
 				url: 'api/getstatedata/',
-				cache: false,
-				async: true,
 				data: {state: geography.id},
-				success: function(localdata) {
+				dataType: "json",
+				success: function(data) {
+					console.log(data)
+					$("#trials").modal('show');
 				},
-				error:function(localdata) {
-					console.log("Error in Ajax Call!")
+				error:function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus)
 			    }
 			});
 

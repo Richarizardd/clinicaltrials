@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import Template
 from django.conf import settings
+from django.core import serializers
 
 import json, sys, cgi, os
 
 # IMPORT OUR PYTHON SCRIPTS
-from stateQuery import get_recruitment_data, fill_states, get_sponsor_trials
+from stateQuery import fill_states, get_sponsor_trials
+from clinicalsearch.models import ClinicalTrial
 
 # Create your views here.
 def index(request):
@@ -35,14 +37,9 @@ def map(request):
 
 
 def stateAPI(request):
-	if request.is_ajax():
-		state = request.GET.get('state')
-		data = (get_recruitment_data(state)) # get data
-		html = {'data': data}
+	state = request.GET.get('state')
+	print state
+	data = ClinicalTrial.objects.filter(state=state)
+	print data
 
-		print "AJAX call worked!"
-	else:
-		print "not working..."
-		html = '<p>This is not ajax!</p>'
-
-	return HttpResponse(json.dumps(html['data']))
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")

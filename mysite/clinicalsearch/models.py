@@ -9,5 +9,13 @@ class ClinicalTrial(models.Model):
 	closed = models.BooleanField()
 	title = models.TextField()
 	condition = models.TextField()
-	last_changed = models.TextField()
 	intervention = models.TextField()
+	locations = models.TextField()
+	last_changed = models.TextField()
+
+    # def set_locations(self, x):
+    #     self.locations = json.dumps(x)
+
+    # def get_locations(self):
+    #     return json.loads(self.locations)
+

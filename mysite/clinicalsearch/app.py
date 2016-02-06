@@ -1,15 +1,14 @@
 from bs4 import BeautifulSoup
 from clinical_trials import Trials
 from ClinicalTrial import ClinicalTrial
-from clinicalsearch import models
+import csv
 import requests
-
 
 urls = ["https://clinicaltrials.gov/ct2/show/study/NCT00456326"]
 trials = []
 for url in urls:
 	r = requests.get(url)
-	soup = BeautifulSoup(r.text)
+	soup = BeautifulSoup(r.text, "html.parser")
 	location = soup.find("td", {"headers":"locName"})
 	if location:
 		state = location.find_parent().find_previous_sibling().text
@@ -19,4 +18,10 @@ for url in urls:
 		if "No publications provided" in r.text:
 			published = False		
 		trial = ClinicalTrial(sponsor, published, state)
+		print trial.sponsor, trial.published, trial.state
+
+with open('trials.csv', 'w') as csvfile:
+	writer = csv.writer(csvfile, delimiter=',')
+	for trial in trials:
+		writer.writerow([trial.id, trial.sponsor, trial.published, trial.state])
 

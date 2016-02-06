@@ -1,7 +1,8 @@
 class ClinicalTrial:
 	"""Object Clinical Trial"""
 
-	def __init__(self, sponsor, published, state):
+	def __init__(self, id, sponsor, published, state):
+		self.id = id
 		self.sponsor = sponsor
 		self.published = published
 		self.state = state

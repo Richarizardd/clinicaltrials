@@ -6,19 +6,26 @@
 		<!-- Meta Data Section -->
 		<meta charset="utf-8">
 		<meta name="author" content="Adam Li, Richard Chen, Daniel Chen">
+		<meta name="description" content="HopHacks Spring 2016">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> 
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 		<!-- My stylesheets -->
 		<link rel="stylesheet" href="{% static 'css/index.css' %}">
+		<link href="{% static "components/css/style.css" %}" rel="stylesheet">
+    
+
+	    <!-- Bootstrap -->
+	    <link href="{% static "components/bower_components/bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
+	    <link href="{% static "components/css/bootstrap-theme.css" %}" rel="stylesheet">
 
 		<!-- Jquery -->
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 		<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
-
 	</head>
 	<body>
 		<!-- Responsive Nav Bar -->
@@ -38,7 +45,13 @@
 
 					<ul class="nav navbar-nav">
 						<li class="">
-							<a href="{% url 'index' %}">About</a>
+							<a href="{% url 'about' %}">About</a>
+						</li>
+						<li class="">
+							<a href="{% url 'map' %}">Map</a>
+						</li>
+						<li class="">
+							<a href="{% url 'contact' %}">Contact</a>
 						</li>
 					</ul>
 				</div> <!-- /. navbar-collapse-->
@@ -59,10 +72,22 @@
 			</div>
 		</div> <!-- wrapper -->
 
+		<!-- Footer -->
+		<div id="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-lg-offset-3">
+						<p class="copyright">Copyright &copy; 2016 - Created in HopHacks Spring 2016 by Daniel Chen, Richard Chen, and Adam Li</p>
+					</div>
+				</div>    
+			</div>  
+		</div>
+
 	    <!-- Javascript Libs -->
-
-
 		<script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+
+		<script src="{% static "components/bower_components/jquery/dist/jquery.min.js" %}"></script>
+    	<script src="{% static "components/bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
 	</body>
 </html>

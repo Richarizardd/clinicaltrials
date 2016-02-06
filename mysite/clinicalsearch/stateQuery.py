@@ -5,6 +5,7 @@ from clinical_trials import Trials
 import json, os
 from ClinicalTrial import ClinicalTrial
 from django.conf import settings
+from clinicalsearch.models import ClinicalTrial
 
 # list of states abbreviations and corresponding states
 states_abbrev = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
@@ -58,15 +59,15 @@ def fill_states():
 
 	return jsonList
 
-# 02: Function to return clinical trial meta data for a certain state
-def get_recruitment_data(state):
-	# create a clinical trials object for searching
-	t = Trials()
-	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
+# # 02: Function to return clinical trial meta data for a certain state
+# def get_recruitment_data(state):
+# 	# create a clinical trials object for searching
+# 	t = Trials()
+# 	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
 
-	print "Success in calling get_recruitment_data!"
+# 	print "Success in calling get_recruitment_data!"
 
-	return (recruiting_trials)
+# 	return (recruiting_trials)
 
 # 03: Function to help populate db with clinicaltrial objects
 def get_state_trials():

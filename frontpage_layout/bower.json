@@ -1,0 +1,23 @@
+{
+  "name": "BigPy",
+  "version": "0.0.1",
+  "homepage": "http://bigpy.mybluemix.net",
+  "authors": [
+    "wederribas <wederribas@gmail.com>"
+  ],
+  "description": "Big Data with Python",
+  "main": "manage.py",
+  "keywords": [
+    "bigdata",
+    "python",
+    "django"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

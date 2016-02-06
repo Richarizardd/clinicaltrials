@@ -58,17 +58,18 @@ def fill_states():
 			url = trial['url']
 
 			# Create a ClinicalTrial Object to hold relevant data
-			clinical_meta_data = ClinicalTrial(nct_id, None, None, state)
+			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url)
 			
+			# Add object to a list
 			clinical_meta_list.append(clinical_meta_data)
+			
 			# print trial.keys()
 			# keys: status, title, url, last_changed, score, condition_summary, order, nct_id
 
-		print len(clinical_meta_list)
-		print clinical_meta_list[0]
-		print clinical_meta_list[0].id
+		# print len(clinical_meta_list)
+		# print clinical_meta_list[0]
+		# print clinical_meta_list[0].id
 		# print json.dumps(trialsList[i], indent=4)
-		break
 
 	print "Success in fill_states!"
 

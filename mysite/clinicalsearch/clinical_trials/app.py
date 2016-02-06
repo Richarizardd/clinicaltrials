@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 from clinical_trials import Trials
 from ClinicalTrial import ClinicalTrial
+from clinicalsearch import models
 import requests
+
 
 urls = ["https://clinicaltrials.gov/ct2/show/study/NCT00456326"]
 trials = []

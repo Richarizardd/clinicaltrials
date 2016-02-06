@@ -17,7 +17,7 @@ for url in urls:
 		published = True
 		if "No publications provided" in r.text:
 			published = False		
-		trial = ClinicalTrial(sponsor, published, state)
+		trial = ClinicalTrial(id, sponsor, published, state)
 		print trial.sponsor, trial.published, trial.state
 
 with open('trials.csv', 'w') as csvfile:

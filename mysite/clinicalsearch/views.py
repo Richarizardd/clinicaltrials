@@ -10,9 +10,9 @@ from stateQuery import get_recruitment_data, fill_states, get_sponsor_trials
 
 # Create your views here.
 def index(request):
-	jsonList = fill_states()
-	get_sponsor_trials()
-
+	# jsonList = fill_states()
+	# get_sponsor_trials()
+	jsonList = {"test": "test"}
 	return render(request, 'clinicalsearch/index.html', {'datum': jsonList})
 
 
@@ -22,6 +22,7 @@ def stateAPI(request):
 		data = (get_recruitment_data(state)) # get data
 		html = {'data': data}
 
+		print "AJAX call worked!"
 	else:
 		print "not working..."
 		html = '<p>This is not ajax!</p>'

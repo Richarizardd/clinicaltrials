@@ -75,7 +75,9 @@ def contact(request):
 
 # 	return HttpResponse((data))
 
-
+def graph1(request):
+	return render(request, 'clinicalsearch/graph1.html')
+	
 # works
 def map(request):
 	COUNT = 5000

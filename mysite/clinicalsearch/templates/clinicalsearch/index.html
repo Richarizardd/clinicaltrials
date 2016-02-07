@@ -3,21 +3,90 @@
 {% load staticfiles %}
 
 {% block maincontent %}
+
 <div id="header">
   <div class="container">
     <div class="row">
       <div class="col-lg-6 col-lg-offset-3 col-centered">
         <h1>Find your disease like your Liam Neeson</h1>
+        <p>Search for relevant clinical trials happening in the USA.</p>
       </div>
       <div class="col-lg-6 col-lg-offset-3 col-centered">
         <form class="form-inline" role="form">
           <div class="form-group">
-            <input type="search" class="form-control" id="exampleInputEmail1" placeholder="Ex. Heart Attacks">
-            <button type="submit" class="btn btn-theme">Search</button>
+            <input type="search" class="form-control" id="exampleInputDisease" placeholder="Ex. Heart Attacks">
+            <button type="submit" class="btn btn-theme" id="search" onclick="queryDisease()">Search</button>
           </div>
         </form>
       </div>      
     </div>
   </div>
 </div>
+
+  <!-- Pop up modal windows -->
+  <div class="modal" id="trials-complete" role="dialog">
+      <div class="modal-dialog">
+
+          <div class="modal-content">
+            <div class="modal-header" style="padding:35px 50px;">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4>Completed Trials</h4>
+            </div>
+            <div class="modal-body" style="padding:40px 50px;">
+              <p>Hello World</p>
+            </div>
+          </div>
+        
+      </div>
+  </div>
+  <div class="modal" id="trials-incomplete" role="dialog">
+      <div class="modal-dialog">
+
+          <div class="modal-content">
+            <div class="modal-header" style="padding:35px 50px;">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4>Recruiting Trials</h4>
+            </div>
+            <div class="modal-body" style="padding:40px 50px;">
+              <p>Hello World</p>
+            </div>
+          </div>
+        
+      </div>
+  </div>
+
+<script> 
+  // Set modal to not show
+  // $(function() {
+  //     var dialog;
+
+  //     dialog = $("#dialog-form").dialog({
+  //       autoOpen: false
+  //     });
+  // });
+
+  $('#search').on('click', function(e) {
+    // prevent the page from refreshing
+    e.preventDefault();
+  })
+
+  function queryDisease() {
+    disease_text = document.getElementById('exampleInputDisease').value;
+
+      //ajax call to get clinical info based on state click
+      $.ajax({
+        type:'get',
+        url: 'api/getdiseasedata/',
+        data: {disease: disease_text},
+        success: function(data) {
+          console.log(data)
+          $("#trials-complete").modal('show');
+          $("#trials-incomplete").modal('show');
+        },
+        error:function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus)
+        }
+      });
+  };
+</script>
 {% endblock %}

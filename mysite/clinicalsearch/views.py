@@ -82,9 +82,17 @@ def diseaseAPI(request):
 # works
 def stateAPI(request):
 	state = request.GET.get('state')
-	data = ClinicalTrial.objects.filter(state=state)
+	closed = ClinicalTrial.objects.filter(state=state, ongoing=False)
+	ongoing = ClinicalTrial.objects.filter(state=state, ongoing=True)
+	data = {"closed": len(closed), "ongoing": len(ongoing)}
 	print data
-	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+	return HttpResponse(json.dumps(data), content_type="application/json")
+
+def tableAPI(request):
+	state = request.GET.get('state')
+	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
+	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable, "ongoingTable": ongoingTable})
 
 def minAgeAPI(request):
 	min_age = request.GET.get('min_age')

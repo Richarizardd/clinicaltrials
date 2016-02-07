@@ -17,4 +17,6 @@ urlpatterns = [
 	url(r'^api/getmaxagedata', views.maxAgeAPI, name='maxAgeAPI'),
 	url(r'^api/getgenderdata', views.genderAPI, name='genderAPI'),
 	url(r'^api/gethealthdata', views.healthAPI, name='healthAPI'),
+
+	url(r'^api/table', views.tableAPI, name='tableAPI'),
 ]

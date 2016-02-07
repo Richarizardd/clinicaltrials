@@ -12,15 +12,3 @@ class ClinicalTrialTable(Table):
 
 	class Meta:
 		model = ClinicalTrial
-
-
-	# sponsor = models.TextField()
-	# published = models.BooleanField()
-	# state = models.TextField()
-	# url = models.TextField()
-	# closed = models.BooleanField()
-	# title = models.TextField()
-	# condition = models.TextField()
-	# intervention = models.TextField()
-	# locations = models.TextField()
-	# last_changed = models.TextField()

@@ -18,7 +18,7 @@
 		          <button type="button" class="close" data-dismiss="modal">&times;</button>
 		          <h4>Trials</h4>
 		        </div>
-		        <div class="modal-body" style="padding:40px 50px;">
+		        <div class="modal-body" id="modal-body" style="padding:40px 50px;">
 		          <p>Hello World</p>
 		        </div>
 	      	</div>
@@ -104,7 +104,7 @@
 				data: {state: geography.id},
 				dataType: "json",
 				success: function(data) {
-					console.log(data)
+					console.log(data[0])
 					$("#trials").modal('show');
 				},
 				error:function(jqXHR, textStatus, errorThrown) {

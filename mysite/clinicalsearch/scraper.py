@@ -63,6 +63,7 @@ def trials_to_csv(trials):
 	with open('trials.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile, delimiter=',')
 		for trial in trials:
+			print trial.title
 			counter += 1
 			print counter
 			r = requests.get(trial.url)
@@ -77,8 +78,14 @@ def trials_to_csv(trials):
 			eligibility = {}
 			for i in range(0, len(elgTypes)):
 				eligibility[unicodedata.normalize('NFKD', elgTypes[i].text).encode('ascii','ignore')] = elgData[i].text
+			if "Accepts Healthy Volunteers:   " not in eligibility:
+				continue
+			if "Genders Eligible for Study:   " not in eligibility:
+				continue
 			if "Ages Eligible for Study:   " in eligibility:
 				ages = eligibility["Ages Eligible for Study:   "]
+				if "up to" in ages:
+					continue
 				trial.min_age = int(ages[0:ages.index(" ")])
 				if "older" in ages:
 					trial.max_age = sys.maxint
@@ -101,7 +108,7 @@ def trials_to_csv(trials):
 
 				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, 
 					trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
-				# 	trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
+					trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
 				# if sponsor not in sponsor_to_trials:
 				# 	sponsor_to_trials[sponsor] = []
 				# sponsor_to_trials[sponsor].append(trial)

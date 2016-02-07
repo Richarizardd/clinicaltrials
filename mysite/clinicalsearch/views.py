@@ -9,10 +9,8 @@ from .tables import ClinicalTrialTable
 from .models import Contact
 from .forms import ContactForm
 
-import sys, cgi, os
+import json, sys, cgi, os
 
-# IMPORT OUR PYTHON SCRIPTS
-from stateQuery import fill_states, get_sponsor_trials
 from clinicalsearch.models import ClinicalTrial
 
 # Create your views here.
@@ -68,22 +66,21 @@ def contact(request):
 
 # works
 def map(request):
-	trial_table = ClinicalTrialTable()
-	return render(request, 'clinicalsearch/map.html', {'trial_table': trial_table})
+	jsonList = {"test": "test"}
+	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
 
 # not yet working
 def diseaseAPI(request):
 	disease = request.GET.get('disease')
 	data = ClinicalTrial.objects.filter(condition=disease)
 
-	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+	return HttpResponse(json.dumps(data), content_type="application/json")
 
 # works
 def stateAPI(request):
 	state = request.GET.get('state')
 	data = ClinicalTrial.objects.filter(state=state)
 	print data
-
 	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
 
 def modalAPI(request):

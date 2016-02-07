@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Template, Context
 from django.conf import settings
 from django.core import serializers
@@ -99,35 +99,61 @@ def map(request):
 # not yet working
 
 def searchAPI(request):
-	if request.method == 'POST': # If the form has been submitted...
+	print request.method
+	if request.method == 'POST': 
+		print "YO"# If the form has been submitted...
 		form = SearchForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-        	data = form.cleaned_data
-        	trials = ClinicalTrial.objects.all()
-        	if "disease" in data:
-        		trials = trials.filter(disease=data["disease"])
-        	if "sponsor" in data:
-        		trials = trials.filter(sponsor=data["sponsor"])
-        	if "gender" in data:
-        		if data["gender"] == "Male":
-        			trials = trials.filter(genders="Male")
-        		if data["gender"] == "Female":
-        			trials = trials.filter(genders="Female")
-        	if "health" in data:
-        		if data["health"] == "Must Be Ill":
-        			trials = trials.filter(health=False)
-        	if "min_age" in data:
-        		trials = trials.filter(min_age_gte=data["min_age"])
-        	if "max_age" in data:
-        		trials = trials.filter(max_age_lte=data["max_age"])
-        	if "state" in data:
-
-			print form.cleaned_data['my_form_field_name']
-
-			return HttpResponseRedirect('/thanks/') # Redirect after POST
+		if form.is_valid(): # All validation rules pass
+			data = form.cleaned_data
+			params = {}
+			trials = ClinicalTrial.objects.all()
+			if data["disease"] != '':
+				params["disease"] = str(data["disease"])
+				trials = trials.filter(condition__contains=data["disease"])
+			if data["sponsor"] != '':
+				params["sponsor"] = str(data["sponsor"])
+				trials = trials.filter(sponsor=data["sponsor"])
+			if "gender" in data:
+				params["gender"] = str(data["gender"])
+				if data["gender"] == "Male":
+					trials = trials.filter(genders="Male")
+				if data["gender"] == "Female":
+					trials = trials.filter(genders="Female")
+			if "health" in data:
+				params["health"] = str(data["health"])
+				if data["health"] == "Must Be Ill":
+					trials = trials.filter(health=False)
+			if data["min_age"] != None:
+				params["min_age"] = int(data["disease"])
+				trials = trials.filter(min_age__gte=data["min_age"])
+			if data["max_age"] != None:
+				params["max_age"] = int(data["disease"])
+				trials = trials.filter(max_age__lte=data["max_age"])
+			if data["state"] != '':
+				print "here"
+				ongoingTable = ClinicalTrialTable(trials.filter(state=data["state"], ongoing=True))
+				return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})
+			else:
+				jsonList = searchmap(trials)
+				return render(request, 'clinicalsearch/searchmap.html', {'datum': jsonList, 'params': params})
 	else:
 		form = ContactForm() # An unbound form
+		print "why again"
 
+def searchmap(trials):
+	jsonList = {} 	# json list to store number of trials/state
+	states_abbrev = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
+	'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO',
+	'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH',
+	'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+	'VA', 'WA', 'WV', 'WI', 'WY']
+
+	for index in range(0, len(states_abbrev)):
+		state = states_abbrev[index] # the state abbreviation
+		numTrials = len(trials.filter(ongoing=True, state=state))
+		jsonList[state] = {"numTrials": numTrials}
+
+	return jsonList
 
 def diseaseAPI(request):
 	disease = request.GET.get('disease')
@@ -143,21 +169,137 @@ def stateAPI(request):
 	print data
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
+def statemapAPI(request):
+	state = request.GET.get('state')
+	print state
+	genders = request.GET.get('genders')
+	print genders
+	sponsor = request.GET.get('sponsor')
+	print sponsor
+	health = request.GET.get('health')
+	print health
+	condition = request.GET.get('condition')
+	print condition
+	min_age = request.GET.get('min_age')
+	print min_age
+	max_age = request.GET.get('max_age')
+	closed = ClinicalTrial.objects.filter(state=state, ongoing=False)
+	ongoing = ClinicalTrial.objects.filter(state=state, ongoing=True)
+	print len(ongoing)
+	if condition != None:
+		closed = closed.filter(condition__contains=condition)
+		ongoing = ongoing.filter(condition__contains=condition)
+		print "condition ", len(ongoing)
+	if sponsor != None:
+		closed = closed.filter(sponsor=sponsor)
+		ongoing = ongoing.filter(sponsor=sponsor)
+		print "sponsor ", len(ongoing)
+	if genders != "Both" and genders != None:
+		closed = closed.filter(genders=genders)
+		ongoing = ongoing.filter(genders=genders)
+		print "genders ", len(ongoing)
+	if health == "Must Be Ill":
+		closed = closed.filter(health=False)
+		ongoing = ongoing.filter(health=False)
+		print "health ", len(ongoing)
+	if min_age != None:
+		closed = closed.filter(min_age__gte=min_age)
+		ongoing = ongoing.filter(min_age__gte=min_age)
+		print "min_age ", len(ongoing)
+	if max_age != None:
+		closed = closed.filter(max_age__lte=max_age)
+		ongoing = ongoing.filter(max_age__lte=max_age)
+		print "max_age ", len(ongoing)
+
+	# closed = ClinicalTrial.objects.filter(state=state, ongoing=False, genders=genders, sponsor=sponsor, health=health, condition__contains=condition, min_age=min_age, max_age=max_age)
+	# ongoing = ClinicalTrial.objects.filter(state=state, ongoing=True, genders=genders, sponsor=sponsor, health=health, condition__contains=condition, min_age=min_age, max_age=max_age)
+	data = {"closed": len(closed), "ongoing": len(ongoing)}
+	print data
+	return HttpResponse(json.dumps(data), content_type="application/json")
+
+
 def completetableAPI(request):
 	state = request.GET.get('state')
 	data = ClinicalTrial.objects.filter(state=state, ongoing=False)
 
-	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+	genders = request.GET.get('genders')
+	print genders
+	sponsor = request.GET.get('sponsor')
+	print sponsor
+	health = request.GET.get('health')
+	print health
+	condition = request.GET.get('condition')
+	print condition
+	min_age = request.GET.get('min_age')
+	print min_age
+	max_age = request.GET.get('max_age')
 
-	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+	print len(data)
+	if condition != None:
+		data = data.filter(condition__contains=condition)
+		print "condition ", len(data)
+	if sponsor != None:
+		data = data.filter(sponsor=sponsor)
+		print "sponsor ", len(data)
+	if genders != "Both" and genders != None:
+		data = data.filter(genders=genders)
+		print "genders ", len(data)
+	if health == "Must Be Ill":
+		data = data.filter(health=False)
+		print "health ", len(data)
+	if min_age != None:
+		data = data.filter(min_age__gte=min_age)
+		print "min_age ", len(data)
+	if max_age != None:
+		data = data.filter(max_age__lte=max_age)
+		print "max_age ", len(data)
+
+	completeTable = ClinicalTrialTable(data)
+
+	# completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+
+	# completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
 
 	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable})
 
 def ongoingtableAPI(request):
 	state = request.GET.get('state')
-	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
-	print ongoingTable
+
+	data = ClinicalTrial.objects.filter(state=state, ongoing=True)
+
+	genders = request.GET.get('genders')
+	print genders
+	sponsor = request.GET.get('sponsor')
+	print sponsor
+	health = request.GET.get('health')
+	print health
+	condition = request.GET.get('condition')
+	print condition
+	min_age = request.GET.get('min_age')
+	print min_age
+	max_age = request.GET.get('max_age')
+
+	print len(data)
+	if condition != None:
+		data = data.filter(condition__contains=condition)
+		print "condition ", len(data)
+	if sponsor != None:
+		data = data.filter(sponsor=sponsor)
+		print "sponsor ", len(data)
+	if genders != "Both" and genders != None:
+		data = data.filter(genders=genders)
+		print "genders ", len(data)
+	if health == "Must Be Ill":
+		data = data.filter(health=False)
+		print "health ", len(data)
+	if min_age != None:
+		data = data.filter(min_age__gte=min_age)
+		print "min_age ", len(data)
+	if max_age != None:
+		data = data.filter(max_age__lte=max_age)
+		print "max_age ", len(data)
 	
+	ongoingTable = ClinicalTrialTable(data)
 	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})
 
 def minAgeAPI(request):

@@ -64,10 +64,31 @@
 		});
 
 		var initialdatum = {{ datum|safe }}
-		
+		var params= {{ params|safe }}
+		console.log(params);
+		var gender = params["gender"];
+		var sponsor = params["sponsor"];
+		var health = params["health"];
+		var condition = params["disease"];
+		var min_age = params["min_age"];
+		var max_age = params["max_age"];
+		var query_params = ""
+		if (gender != undefined)
+			query_params += "genders=" + gender 
+		if (sponsor != undefined)
+			query_params += "&sponsor=" + sponsor
+		if (health != undefined)
+			query_params += "&health=" + health
+		if (condition != undefined)
+			query_params += "&condition=" + condition
+		if (min_age != undefined)
+			query_params += "&min_age=" + min_age
+		if (max_age != undefined)
+			query_params += "&max_age=" + max_age
+
 		// create a colorscale
 		var colorScale = d3.scale.linear()
-			.domain([0, 30])
+			.domain([0, 10])
 			.range(['green', 'red']);
 
 	 	//create a datamap with d3.js and datamaps.js
@@ -99,13 +120,14 @@
 			//ajax call to get clinical info based on state click
 			$.ajax({
 				type:'get',
-				url: 'api/getstatedata/',
-				data: {state: geography.id},
+				url: '/api/statemap/',
+				data: {state: geography.id, gender: gender, sponsor: sponsor, health: health, condition: condition, min_age: min_age, max_age: max_age},
 				dataType: "json",
 				success: function(data) {
 					console.log(data)
-					$("#trials").find('#complete_link').attr("href", "api/completetable?state="+geography.id)
-					$("#trials").find('#ongoing_link').attr("href", "api/ongoingtable?state="+geography.id)
+					console.log(query_params)
+					$("#trials").find('#complete_link').attr("href", "/api/completetable?state="+geography.id + "&" + query_params)
+					$("#trials").find('#ongoing_link').attr("href", "/api/ongoingtable?state="+geography.id + "&" + query_params)
 					$('#trials').find('#complete_count').html(data["closed"]);
 					$('#trials').find('#ongoing_count').html(data["ongoing"]);
 					$("#trials").modal('show');

@@ -14,10 +14,12 @@
       </div>
     </div>
     <br><br><br>
-    <form action="/search/" method="post">
+    <form action="api/search/" method="post">
       {% csrf_token %}
-      {{ form }}
-      <input type="submit" value="Submit" />
+      <center>
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+      </center>
   </form>
     <!-- <form>
       <div class="row">
@@ -64,7 +66,7 @@
         <br><br><br>
         <center><button type="submit" class="btn btn-primary btn-lg" id="all-search">Search</button></center>
     </form> -->
-    <br><br><br><br><br><br><br>
+    <br><br><br><br>
   </div>
 </div>
 

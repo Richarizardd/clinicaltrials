@@ -16,11 +16,11 @@ class ContactForm(forms.ModelForm):
 		self.fields['content'].label = "What disease clinical trials are you interested in?"
 
 class SearchForm(forms.Form):
-	disease = forms.CharField(max_length=100)
-	sponsor = forms.CharField(max_length=100)
-	state = forms.CharField(max_length=2)
-	gender = forms.ChoiceField((('Both', 'Both'), ('Male', 'Male'), ('Female', 'Female')))
-	health = forms.ChoiceField((('Accepts Healthy Volunteers', 'Accepts Healthy Volunteers'), ('Must Be Ill', 'Must Be Ill')))
-	min_age = forms.IntegerField(min_value=0, max_value=150)
-	max_age = forms.IntegerField(min_value=0, max_value=150)
+	disease = forms.CharField(max_length=100, required=False)
+	sponsor = forms.CharField(max_length=100, required=False)
+	state = forms.CharField(max_length=2, required=False)
+	gender = forms.ChoiceField((('Both', 'Both'), ('Male', 'Male'), ('Female', 'Female')), required=False)
+	health = forms.ChoiceField((('Accepts Healthy Volunteers', 'Accepts Healthy Volunteers'), ('Must Be Ill', 'Must Be Ill')), required=False)
+	min_age = forms.IntegerField(min_value=0, max_value=150, required=False)
+	max_age = forms.IntegerField(min_value=0, max_value=150, required=False)
 

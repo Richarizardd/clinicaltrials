@@ -11,6 +11,8 @@ urlpatterns = [
 	url(r'^contact', views.contact, name='contact'),
 
 	# Data Processing URLs
+	url(r'^api/search', views.searchAPI, name='searchAPI'),
+	url(r'^api/statemap', views.statemapAPI, name='statemapAPI'),
 	url(r'^api/getstatedata', views.stateAPI, name='stateAPI'),
 	url(r'^api/getdiseasedata', views.diseaseAPI, name='diseaseAPI'),
 

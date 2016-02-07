@@ -64,13 +64,8 @@
 			// var data = {{ data|safe }};
 		</script>
 
-		<div id="wrap">
-			<!-- Main Content Area -->
-			<div class="container-fluid">
-				{% block maincontent %}
-				{% endblock %}
-			</div>
-		</div> <!-- wrapper -->
+		{% block maincontent %}
+		{% endblock %}
 
 		<!-- Footer -->
 		<div id="footer">

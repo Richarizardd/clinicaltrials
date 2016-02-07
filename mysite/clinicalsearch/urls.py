@@ -12,5 +12,6 @@ urlpatterns = [
 	# Data Processing URLs
 	url(r'^api/getstatedata', views.stateAPI, name='stateAPI'),
 	url(r'^api/getdiseasedata', views.diseaseAPI, name='diseaseAPI'),
+	url(r'^api/table', views.tableAPI, name='tableAPI')
 	# url(r'^api/getmodal)
 ]

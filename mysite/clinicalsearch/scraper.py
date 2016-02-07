@@ -50,7 +50,7 @@ def test_sponsors_impact():
 	with open('trials.csv', 'r') as csvfile:
 		reader = csv.reader(csvfile, delimiter=',')
 		for row in reader:
-			trial = ClinicalTrial(ID=row[0], sponsor=row[1], published=(row[2] == "True"), state=row[3], url=row[4], closed=(row[5] == "True"), title=row[6], condition=row[7], intervention=row[8], locations=row[9], last_changed=row[10])
+			trial = ClinicalTrial(ID=row[0], sponsor=row[1], published=(row[2] == "True"), state=row[3], url=row[4], ongoing=(row[5] == "True"), title=row[6], condition=row[7], intervention=row[8], locations=row[9], last_changed=row[10])
 			if trial.sponsor not in sponsor_to_trials:
 				sponsor_to_trials[trial.sponsor] = []
 			sponsor_to_trials[trial.sponsor].append(trial)
@@ -104,10 +104,10 @@ def trials_to_csv(trials):
 			trial.published = published
 			trial.locations = locations
 			try: 
-				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health
+				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.ongoing, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health
 
 				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, 
-					trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
+					trial.url, trial.ongoing, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
 					trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
 				# if sponsor not in sponsor_to_trials:
 				# 	sponsor_to_trials[sponsor] = []

@@ -68,6 +68,14 @@ def contact(request):
 		'error': 0,
 	})
 
+# def graph(request):
+# 	main_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'graph1.txt'))
+# 	data = open(main_dir).read()
+# 	print data
+
+# 	return HttpResponse((data))
+
+
 # works
 def map(request):
 	COUNT = 5000

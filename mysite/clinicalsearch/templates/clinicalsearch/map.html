@@ -73,8 +73,12 @@
 		
 		// create a colorscale
 		var colorScale = d3.scale.linear()
-			.domain([0, 30])
+			.domain([0, 25])
 			.range(['green', 'red']);
+
+
+		var color = d3.scale.quantile()
+   			.range(['green', 'red']);
 
 	 	//create a datamap with d3.js and datamaps.js
 		var map = new Datamap({
@@ -87,10 +91,39 @@
 				}
     		},
     		done: function(geography, data, map) {
-
     		}
 		});//end of map
-		
+		svg = d3.select('svg')
+
+		var legend = svg.selectAll('g.legendEntry')
+		    .data(colorScale.range())
+		    .enter()
+		    .append('g').attr('class', 'legendEntry');
+
+		legend
+		    .append('rect')
+		    .attr("x", 500)
+		    .attr("y", function(d, i) {
+		       return i * 20;
+		    })
+		   .attr("width", 10)
+		   .attr("height", 10)
+		   .style("stroke", "black")
+		   .style("stroke-width", 1)
+		   .style("fill", function(d){return d;}); 
+
+		 legend
+		 	.data(colorScale.domain())
+		    .append('text')
+		    .attr("x", 530) //leave 5 pixel space after the <rect>
+		    .attr("y", function(d, i) {
+		       return i * 20;
+		    })
+		    .attr("dy", "0.8em") //place text one line *below* the x,y point
+		    .text(function(d,i) {
+		        return colorScale.domain()[i];
+		    });
+
 		map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 			var m = {};
 			console.log(geography.id)

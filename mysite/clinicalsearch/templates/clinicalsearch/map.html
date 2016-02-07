@@ -42,15 +42,33 @@
 	</div>
 	<script>
 		$(function() {
-			var dialog;
+		    var json_colors = {}
+			states = Object.keys(initialdatum)
 
-			dialog = $("#dialog-form").dialog({
-				autoOpen: false
-			});
+			//loop through each state
+			for(var i=0; i<Object.keys(initialdatum).length; i++) {
+				var state = states[i]
+				
+				numTrial = initialdatum[state]['numTrials'] // store number of trials
+				
+				json_colors[state] = colorScale(numTrial) // get color based on scale
+			}
+			for(var j=0; j<Object.keys(initialdatum).length; j++) {	
+				var colorObj = {} //create color object to update choropleth
+				var state = states[j] //get the state
+				
+				colorObj[state] = json_colors[state] //make json object
+
+				map.updateChoropleth(colorObj) //update color
+			}
 		});
-
 		var initialdatum = {{ datum|safe }}
-	
+		
+		// create a colorscale
+		var colorScale = d3.scale.linear()
+			.domain([0, 2])
+			.range(['green', 'yellow']);
+
 	 	//create a datamap with d3.js and datamaps.js
 		var map = new Datamap({
 			element: document.getElementById('map'),	//get html element
@@ -61,13 +79,19 @@
 				popupTemplate: function(geography, data) { return '<div class="hoverinfo">' + geography.properties.name + '<br>' + ' Number of Trials:' +  data.numTrials + ' '
 				}
     		},
-    		done: function(map) {
+    		done: function(geography, data, map) {
+
     		}
 		});//end of map
 		
 		map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 			var m = {};
+			console.log(geography.id)
+			console.log(typeof(geography.id))
+
 			m[geography.id] = 'green'; //geography.id is like TX
+			console.log(m)
+			console.log(typeof(m))
 			map.updateChoropleth(m);
 
 			

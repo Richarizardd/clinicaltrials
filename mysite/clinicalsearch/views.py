@@ -9,6 +9,7 @@ from .tables import ClinicalTrialTable
 from .models import Contact
 from .forms import ContactForm, SearchForm
 
+import stateQuery
 import json, sys, cgi, os
 
 from clinicalsearch.models import ClinicalTrial
@@ -67,9 +68,31 @@ def contact(request):
 		'error': 0,
 	})
 
+# def graph(request):
+# 	main_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'graph1.txt'))
+# 	data = open(main_dir).read()
+# 	print data
+
+# 	return HttpResponse((data))
+
+
 # works
 def map(request):
-	jsonList = {"test": "test"}
+	COUNT = 5000
+	jsonList = {} 	# json list to store number of trials/state
+	states_abbrev = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
+	'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO',
+	'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH',
+	'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT',
+	'VA', 'WA', 'WV', 'WI', 'WY']
+
+	for index in range(0, len(states_abbrev)):
+		state = states_abbrev[index] # the state abbreviation
+		trials = ClinicalTrial.objects.filter(ongoing=True, state=state)
+		numTrials = len(trials)		 # number of trials per state
+		# Create the json object to be returned
+		jsonList[state] = {"numTrials": numTrials}
+
 	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
 
 ######################### LIST OF API CALLS ###############################
@@ -122,13 +145,17 @@ def stateAPI(request):
 
 def completetableAPI(request):
 	state = request.GET.get('state')
+	data = ClinicalTrial.objects.filter(state=state, ongoing=False)
+
 	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+
+	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+
 	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable})
 
 def ongoingtableAPI(request):
 	state = request.GET.get('state')
 	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
-	
 	print ongoingTable
 	
 	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})

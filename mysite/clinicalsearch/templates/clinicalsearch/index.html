@@ -9,13 +9,17 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-        <h1>Find your disease like your Liam Neeson</h1>
-        <p>Search for relevant clinical trials happening in the USA.</p>
+        <h1>Find your disease like you're Liam Neeson</h1>
+        <h4>Search for relevant clinical trials happening in the USA.</h4>
       </div>
     </div>
     <br><br><br>
-
-    <form>
+    <form action="/search/" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit" value="Submit" />
+  </form>
+    <!-- <form>
       <div class="row">
         <div class="col-lg-4 text-left">
           <div class="form-group">
@@ -59,7 +63,7 @@
         <br><br><br>
         <br><br><br>
         <center><button type="submit" class="btn btn-primary btn-lg" id="all-search">Search</button></center>
-    </form>
+    </form> -->
     <br><br><br><br><br><br><br>
   </div>
 </div>

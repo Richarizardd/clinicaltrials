@@ -15,3 +15,12 @@ class ContactForm(forms.ModelForm):
 		self.fields['contact_phone'].label = "Your phone number:"
 		self.fields['content'].label = "What disease clinical trials are you interested in?"
 
+class SearchForm(forms.Form):
+	disease = forms.CharField(max_length=100)
+	sponsor = forms.CharField(max_length=100)
+	state = forms.CharField(max_length=2)
+	gender = forms.ChoiceField((('Both', 'Both'), ('Male', 'Male'), ('Female', 'Female')))
+	health = forms.ChoiceField((('Accepts Healthy Volunteers', 'Accepts Healthy Volunteers'), ('Must Be Ill', 'Must Be Ill')))
+	min_age = forms.IntegerField(min_value=0, max_value=150)
+	max_age = forms.IntegerField(min_value=0, max_value=150)
+

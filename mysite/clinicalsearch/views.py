@@ -7,7 +7,7 @@ from django.template.loader import get_template
 from .tables import ClinicalTrialTable
 
 from .models import Contact
-from .forms import ContactForm
+from .forms import ContactForm, SearchForm
 
 import json, sys, cgi, os
 
@@ -16,7 +16,7 @@ from clinicalsearch.models import ClinicalTrial
 # Create your views here.
 def index(request):
 
-	return render(request, 'clinicalsearch/index.html')
+	return render(request, 'clinicalsearch/index.html', {'form': SearchForm()})
 
 def about(request):
 
@@ -74,6 +74,38 @@ def map(request):
 
 ######################### LIST OF API CALLS ###############################
 # not yet working
+
+def searchAPI(request):
+	if request.method == 'POST': # If the form has been submitted...
+		form = SearchForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+        	data = form.cleaned_data
+        	trials = ClinicalTrial.objects.all()
+        	if "disease" in data:
+        		trials = trials.filter(disease=data["disease"])
+        	if "sponsor" in data:
+        		trials = trials.filter(sponsor=data["sponsor"])
+        	if "gender" in data:
+        		if data["gender"] == "Male":
+        			trials = trials.filter(genders="Male")
+        		if data["gender"] == "Female":
+        			trials = trials.filter(genders="Female")
+        	if "health" in data:
+        		if data["health"] == "Must Be Ill":
+        			trials = trials.filter(health=False)
+        	if "min_age" in data:
+        		trials = trials.filter(min_age_gte=data["min_age"])
+        	if "max_age" in data:
+        		trials = trials.filter(max_age_lte=data["max_age"])
+        	if "state" in data:
+
+			print form.cleaned_data['my_form_field_name']
+
+			return HttpResponseRedirect('/thanks/') # Redirect after POST
+	else:
+		form = ContactForm() # An unbound form
+
+
 def diseaseAPI(request):
 	disease = request.GET.get('disease')
 	data = ClinicalTrial.objects.filter(condition=disease)

@@ -9,7 +9,10 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 
+	<!-- Where the map goes -->
 	<div id="map" style="position: relative;"></div>
+	
+	<!-- Pop up modal window -->
 	<div class="modal" id="trials" role="dialog">
 	    <div class="modal-dialog">
 
@@ -27,23 +30,10 @@
 	</div>
 	<script>
 		$(function() {
-			var dialog
+			var dialog;
 
 			dialog = $("#dialog-form").dialog({
 				autoOpen: false
-				// height: 300,
-				// width: 350,
-				// modal: true,
-				// buttons: {
-				// 	"Create an account": "test",
-				// 	Cancel: function() {
-				// 		dialog.dialog( "close" );
-				// 	}
-				// },
-				// close: function() {
-				// 	form[ 0 ].reset();
-				// 	allFields.removeClass( "ui-state-error" );
-				// }
 			});
 		});
 
@@ -60,34 +50,6 @@
 				}
     		},
     		done: function(map) {
-    	// 		map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-    	// 			var m = {};
-    	// 			m[geography.id] = 'green'; //geography.id is like TX
-    	// 			map.updateChoropleth(m);
-
-    	// 			//ajax call to get clinical info based on state click
-    	// 			$.ajax({
-					// 	type:'get',
-					// 	url: 'api/getstatedata/',
-					// 	cache: false,
-					// 	async: true,
-					// 	data: {state: geography.id},
-					// 	success: function(localdata) {
-					// 		//convert local data to json
-					// 		// localdata = JSON.parse(localdata)
-
-					// 		// var test = document.createElement("p");
-					// 		// var header = document.createTextNode("This is the results!");
-					// 		// test.appendChild(header);
-					// 		// var body = document.createTextNode(JSON.stringify(localdata, null, 2) + "break!!!****" + JSON.stringify(localdata[0]) + typeof(localdata));
-					// 		// test.appendChild(body)
-					// 		// document.body.appendChild(test);
-					// 	},
-					// 	error:function(localdata) {
-					// 		console.log("Error in Ajax Call!")
-					//     }
-					// });
-    	// 		})
     		}
 		});//end of map
 		
@@ -116,7 +78,6 @@
 		});
 
 		map.labels();	// add labels to each map element (e.g. CA to California)
-
 
 		//resize with d3
 		d3.select(window).on('resize', function() {

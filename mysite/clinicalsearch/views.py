@@ -4,6 +4,7 @@ from django.template import Template, Context
 from django.conf import settings
 from django.core import serializers
 from django.template.loader import get_template
+from .tables import ClinicalTrialTable
 
 from .models import Contact
 from .forms import ContactForm
@@ -16,15 +17,11 @@ from clinicalsearch.models import ClinicalTrial
 
 # Create your views here.
 def index(request):
-	# jsonList = fill_states()
-	# get_sponsor_trials()
-	# jsonList = {"test": "test"}
+
 	return render(request, 'clinicalsearch/index.html')
 
 def about(request):
-	# jsonList = fill_states()
-	# get_sponsor_trials()
-	# jsonList = {"test": "test"}
+
 	return render(request, 'clinicalsearch/about.html')
 
 def contact(request):
@@ -45,26 +42,13 @@ def contact(request):
 			contact_phone = request.POST.get('contact_phone', '')
 			disease_content = request.POST.get('content', '')
 
+			# Save fields to the model
 			contact = form.save(commit=True)
 			contact.contact_name = contact_name
 			contact.contact_email = contact_email
 			contact.contact_phone = contact_phone
 			contact.content = disease_content
 			contact.save()
-
-			# # put into a template
-			# template = get_template('clinicalsearch/contact_template.txt')
-
-			# # create Context object
-			# context = Context({
-			# 	'contact_name': contact_name,
-			# 	'contact_email': contact_email,
-			# 	'contact_phone': contact_phone,
-			# 	'disease_content': disease_content,
-			# 	})
-			# # render the Context object
-			# content = template.render(context)
-			# print content
 
 			# redirect to the contact page
 			return render(request, 'clinicalsearch/contact.html', {
@@ -82,19 +66,29 @@ def contact(request):
 		'error': 0,
 	})
 
-
-
+# works
 def map(request):
 	# jsonList = fill_states()
 	# get_sponsor_trials()
 	jsonList = {"test": "test"}
 	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
 
+# not yet working
+def diseaseAPI(request):
+	disease = request.GET.get('disease')
+	data = ClinicalTrial.objects.filter(condition=disease)
 
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+
+# works
 def stateAPI(request):
 	state = request.GET.get('state')
-	print state
 	data = ClinicalTrial.objects.filter(state=state)
 	print data
+
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+
+def modalAPI(request):
+	data = {test: "test"}
 
 	return HttpResponse(serializers.serialize('json', data), content_type="application/json")

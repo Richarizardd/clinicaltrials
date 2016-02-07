@@ -47,13 +47,6 @@ def fill_states():
 
 	TRIALS_LIST = trialsList
 	print "Length of trials list: ", len(trialsList)			
-			# print trial.keys()
-			# keys: status, title, url, last_changed, score, condition_summary, order, nct_id
-
-		# print len(clinical_meta_list)
-		# print clinical_meta_list[0]
-		# print clinical_meta_list[0].id
-		# print json.dumps(trialsList[i], indent=4)
 
 	print "Success in fill_states!"
 
@@ -172,9 +165,6 @@ def get_sponsor_trials():
 						is_closed = True
 					elif is_closed == "N":
 						is_closed = False
-
-					# Create a ClinicalTrial Object to hold relevant data
-					# clinical_meta_data = ClinicalTrial(nct_id, sponsor, None, None, url, is_closed, title, last_changed, intervention)
 
 					# Create a ClinicalTrial Object to hold relevant data
 					clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, None, last_changed)

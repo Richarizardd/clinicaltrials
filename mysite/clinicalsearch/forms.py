@@ -6,14 +6,6 @@ class ContactForm(forms.ModelForm):
 	class Meta:
 		model = Contact
 		fields = ('contact_name', 'contact_email', 'contact_phone', 'content')
-
-	# contact_name = forms.CharField(required=True)
-	# contact_email = forms.EmailField(required=True)
-	# contact_phone = forms.CharField(required=True)
-	# content = forms.CharField(
-	# 	required=True,
-	# 	widget=forms.Textarea
-	# )
 	
 	# init function to make it look nicer
 	def __init__(self, *args, **kwargs):

@@ -3,77 +3,106 @@
 {% load staticfiles %}
 
 {% block maincontent %}
-
-<div id="header">
+<!-- <link href="{% static 'css/style.css' %}" rel="stylesheet">
+ -->
+<div id="header" style="width: 100%;">
   <div class="container">
     <div class="row">
-      <div class="col-lg-6 col-lg-offset-3 col-centered">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
         <h1>Find your disease like your Liam Neeson</h1>
         <p>Search for relevant clinical trials happening in the USA.</p>
       </div>
-      <div class="col-lg-6 col-lg-offset-3 col-centered">
+    </div>
+    <br><br><br>
+
+    <!-- Start of the form -->
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
         <form class="form-inline" role="form">
+          <label for="disease">Type of Disease</label>
           <div class="form-group">
             <input type="search" class="form-control" id="exampleInputDisease" placeholder="Ex. Heart Attacks">
-            <button type="submit" class="btn btn-theme" id="search" onclick="queryDisease()">Search</button>
+            <button type="submit" class="btn btn-theme search" id="search" onclick="queryDisease()">Search</button>
           </div>
         </form>
-      </div>      
+      </div>   
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+        <form class="form-inline" role="form">
+          <label for="state">State In USA</label>
+          <div class="form-group">
+            <input type="search" class="form-control" id="exampleInputState" placeholder="Ex. CA">
+            <button type="submit" class="btn btn-theme search" id="search" onclick="queryState()">Search</button>
+          </div>
+        </form>
+      </div>
+    </div><!-- end of row  -->
+    <br><br>      
+
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+        <form class="form-inline" role="form">
+          <label for="minage">Minimum Age Required</label>
+          <div class="form-group">
+            <input type="search" class="form-control" id="exampleInputMinAge" placeholder="Ex. 26">
+            <button type="submit" class="btn btn-theme search" id="search">Search</button>
+          </div>
+        </form>
+      </div> 
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right ">
+        <form class="form-inline" role="form">
+          <label for="maxage">Maximum Age Required</label>
+          <div class="form-group">
+            <input type="search" class="form-control" id="exampleInputMaxAge" placeholder="Ex. 70">
+            <button type="submit" class="btn btn-theme search" id="search">Search</button>
+          </div>
+        </form>
+      </div>  
+    </div> <!-- end of row  -->
+    <br><br>
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+        <form class="form-inline" role="form">
+          <label for="gender">Gender</label>
+            <select class="form-control" id="exampleInputGender">
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+            <button type="submit" class="btn btn-theme search" id="search" onclick="queryGender()">Search</button>
+        </form>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+        <form class="form-inline" role="form">
+          <label for="state">Health</label>
+          <div class="form-group">
+            <select class="form-control" id="exampleInputHealth">
+              <option>Healthy Required</option>
+              <option>Healthy Not Required</option>
+            </select>
+            <button type="submit" class="btn btn-theme search" id="search">Search</button>
+          </div>
+        </form>
+      </div>
+    </div> <!-- end of row  -->
+    <br><br><br>
+    <div class="text-center">
+      <p>Use the green search button if you want to search based on multiple query points (e.g. type of disease, min age, max age and gender).</p>
+      <label for"overall search">Overall Search</label>
+      <button type="submit" class="btn btn-success search" id="all-search" onclick="queryAll()">Search</button>
     </div>
+    <br><br>
   </div>
 </div>
 
-  <!-- Pop up modal windows -->
-  <div class="modal" id="trials-complete" role="dialog">
-      <div class="modal-dialog">
-
-          <div class="modal-content">
-            <div class="modal-header" style="padding:35px 50px;">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4>Completed Trials</h4>
-            </div>
-            <div class="modal-body" style="padding:40px 50px;">
-              <p>Hello World</p>
-            </div>
-          </div>
-        
-      </div>
-  </div>
-  <div class="modal" id="trials-incomplete" role="dialog">
-      <div class="modal-dialog">
-
-          <div class="modal-content">
-            <div class="modal-header" style="padding:35px 50px;">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4>Recruiting Trials</h4>
-            </div>
-            <div class="modal-body" style="padding:40px 50px;">
-              <p>Hello World</p>
-            </div>
-          </div>
-        
-      </div>
-  </div>
-
 <script> 
-  // Set modal to not show
-  // $(function() {
-  //     var dialog;
-
-  //     dialog = $("#dialog-form").dialog({
-  //       autoOpen: false
-  //     });
-  // });
-
-  $('#search').on('click', function(e) {
-    // prevent the page from refreshing
+  // prevent the page from refreshing
+  $('.search').on('click', function(e) {
     e.preventDefault();
   })
 
   function queryDisease() {
     disease_text = document.getElementById('exampleInputDisease').value;
-
-      //ajax call to get clinical info based on state click
+      //ajax call to get clinical info
       $.ajax({
         type:'get',
         url: 'api/getdiseasedata/',
@@ -87,6 +116,91 @@
           console.log(textStatus)
         }
       });
+  };
+
+  function queryState() {
+    state_text = document.getElementById('exampleInputState').value;
+    
+    //ajax call to get clinical info
+    $.ajax({
+      type:'get',
+      url: 'api/getstatedata/',
+      data: {state: state_text},
+      success: function(data) {
+        console.log(data)
+      },
+      error:function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus)
+      }
+    });
+  };
+
+  function queryGender() {
+    gender_text = document.getElementById('exampleInputGender').value;
+    console.log(gender_text)
+    //ajax call to get clinical info
+    $.ajax({
+      type:'get',
+      url: 'api/getgenderdata/',
+      data: {genders: gender_text},
+      success: function(data) {
+        console.log(data)
+      },
+      error:function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus)
+      }
+    });
+  };
+
+  function queryMinAge() {
+    minage_text = document.getElementById('exampleInputMinAge').value;
+    
+    //ajax call to get clinical info
+    $.ajax({
+      type:'get',
+      url: 'api/getminagedata/',
+      data: {min_age: minage_text},
+      success: function(data) {
+        console.log(data)
+      },
+      error:function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus)
+      }
+    });
+  };
+
+  function queryMaxAge() {
+    maxage_text = document.getElementById('exampleInputMinAge').value;
+    
+    //ajax call to get clinical info
+    $.ajax({
+      type:'get',
+      url: 'api/getmaxagedata/',
+      data: {max_age: minage_text},
+      success: function(data) {
+        console.log(data)
+      },
+      error:function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus)
+      }
+    });
+  };
+
+  function queryHealth() {
+    health_text = document.getElementById('exampleInputHealth').value;
+    
+    //ajax call to get clinical info
+    $.ajax({
+      type:'get',
+      url: 'api/gethealthdata/',
+      data: {health: minage_text},
+      success: function(data) {
+        console.log(data)
+      },
+      error:function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus)
+      }
+    });
   };
 </script>
 {% endblock %}

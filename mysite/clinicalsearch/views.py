@@ -72,13 +72,13 @@ def map(request):
 	jsonList = {"test": "test"}
 	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
 
+######################### LIST OF API CALLS ###############################
 # not yet working
 def diseaseAPI(request):
 	disease = request.GET.get('disease')
 	data = ClinicalTrial.objects.filter(condition=disease)
 
 	return HttpResponse(json.dumps(data), content_type="application/json")
-
 # works
 def stateAPI(request):
 	state = request.GET.get('state')
@@ -98,7 +98,24 @@ def ongoingtableAPI(request):
 	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
 	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})
 
-def modalAPI(request):
-	data = {test: "test"}
+def minAgeAPI(request):
+	min_age = request.GET.get('min_age')
+	data = ClinicalTrial.objects.filter(min_age=min_age)
+	print data
+	print type(data)
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
 
+def maxAgeAPI(request):
+	max_age = request.GET.get('max_age')
+	data = ClinicalTrial.objects.filter(max_age=max_age)
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+
+def genderAPI(request):
+	genderes = request.GET.get('genders')
+	data = ClinicalTrial.objects.filter(genders=genders)
+	return HttpResponse(serializers.serialize('json', data), content_type="application/json")
+	
+def healthAPI(request):
+	health = request.GET.get('health')
+	data = ClinicalTrial.objects.filter(health=health)
 	return HttpResponse(serializers.serialize('json', data), content_type="application/json")

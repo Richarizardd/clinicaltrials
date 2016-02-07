@@ -15,12 +15,10 @@ urlpatterns = [
 	url(r'^api/getdiseasedata', views.diseaseAPI, name='diseaseAPI'),
 
 	url(r'^api/completetable', views.completetableAPI, name='completetableAPI'),
-	url(r'^api/ongoingtable', views.ongoingtableAPI, name='ongoingtableAPI')
-	# url(r'^api/getmodal)
+	url(r'^api/ongoingtable', views.ongoingtableAPI, name='ongoingtableAPI'),
 
 	url(r'^api/getminagedata', views.minAgeAPI, name='minAgeAPI'),
 	url(r'^api/getmaxagedata', views.maxAgeAPI, name='maxAgeAPI'),
 	url(r'^api/getgenderdata', views.genderAPI, name='genderAPI'),
 	url(r'^api/gethealthdata', views.healthAPI, name='healthAPI'),
-
 ]

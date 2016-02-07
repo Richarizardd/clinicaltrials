@@ -22,6 +22,9 @@ def about(request):
 
 	return render(request, 'clinicalsearch/about.html')
 
+def problem(request):
+	return render(request, 'clinicalsearch/problem.html')
+
 def contact(request):
 	form_class = ContactForm()
 

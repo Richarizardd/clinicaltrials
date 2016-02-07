@@ -66,14 +66,14 @@
 		var initialdatum = {{ datum|safe }}
 		var params= {{ params|safe }}
 		console.log(params);
-		var gender = params["gender"];
+		var genders = params["genders"];
 		var sponsor = params["sponsor"];
 		var health = params["health"];
 		var condition = params["disease"];
 		var age = params["age"];
 		var query_params = ""
-		if (gender != undefined)
-			query_params += "genders=" + gender 
+		if (genders != undefined)
+			query_params += "genders=" + genders
 		if (sponsor != undefined)
 			query_params += "&sponsor=" + sponsor
 		if (health != undefined)
@@ -118,7 +118,7 @@
 			$.ajax({
 				type:'get',
 				url: '/api/statemap/',
-				data: {state: geography.id, gender: gender, sponsor: sponsor, health: health, condition: condition, age: age},
+				data: {state: geography.id, genders: genders, sponsor: sponsor, health: health, condition: condition, age: age},
 				dataType: "json",
 				success: function(data) {
 					console.log(data)

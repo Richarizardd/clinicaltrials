@@ -115,11 +115,11 @@ def searchAPI(request):
 			if data["sponsor"] != '':
 				params["sponsor"] = str(data["sponsor"])
 				trials = trials.filter(sponsor=data["sponsor"])
-			if "gender" in data:
-				params["gender"] = str(data["gender"])
-				if data["gender"] == "Male":
+			if "genders" in data:
+				params["genders"] = str(data["genders"])
+				if data["genders"] == "Male":
 					trials = trials.filter(genders="Male")
-				if data["gender"] == "Female":
+				if data["genders"] == "Female":
 					trials = trials.filter(genders="Female")
 			if "health" in data:
 				params["health"] = str(data["health"])

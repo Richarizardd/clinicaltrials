@@ -96,6 +96,9 @@ def completetableAPI(request):
 def ongoingtableAPI(request):
 	state = request.GET.get('state')
 	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
+	
+	print ongoingTable
+	
 	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})
 
 def minAgeAPI(request):

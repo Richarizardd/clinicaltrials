@@ -13,6 +13,7 @@ urlpatterns = [
 	# Data Processing URLs
 	url(r'^api/getstatedata', views.stateAPI, name='stateAPI'),
 	url(r'^api/getdiseasedata', views.diseaseAPI, name='diseaseAPI'),
-	url(r'^api/table', views.tableAPI, name='tableAPI')
+	url(r'^api/completetable', views.completetableAPI, name='completetableAPI'),
+	url(r'^api/ongoingtable', views.ongoingtableAPI, name='ongoingtableAPI')
 	# url(r'^api/getmodal)
 ]

@@ -15,7 +15,11 @@
         <div class="container" style="margin-top: 10px">
             <h1>people</h1>
             <br />
-            {% render_table ongoingTable %}
+            {% if ongoingTable %}
+            	{% render_table ongoingTable %}
+            {% else %}
+            	{% render_table completeTable %}
+            {% endif %}
         </div>
     </body>
 </html>

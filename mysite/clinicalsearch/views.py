@@ -88,11 +88,15 @@ def stateAPI(request):
 	print data
 	return HttpResponse(json.dumps(data), content_type="application/json")
 
-def tableAPI(request):
+def completetableAPI(request):
 	state = request.GET.get('state')
 	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable})
+
+def ongoingtableAPI(request):
+	state = request.GET.get('state')
 	ongoingTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=True))
-	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable, "ongoingTable": ongoingTable})
+	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})
 
 def modalAPI(request):
 	data = {test: "test"}

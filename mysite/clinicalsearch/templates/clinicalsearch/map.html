@@ -24,13 +24,16 @@
 		        </div>
 		        <div class="modal-body" style="padding:100px 50px;">
 		        	<div class="col-md-6">
-		        		<a href="" id="complete_link">your link</a>
-				    	<center><h4>Completed:</h4></center>
-				    	<center><h4 id="complete_count"></h4></center>
+		        		<a href="" id="complete_link">
+					    	<center><h4>Completed:</h4></center>
+					    	<center><h4 id="complete_count"></h4></center>
+					    </a>
 				  	</div>
 				 	<div class="col-md]-6">
-				    	<center><h4>Ongoing:</h4></center>
-				    	<center><h4 id="ongoing_count"></h4></center>
+				 		<a href="" id="ongoing_link">
+					    	<center><h4>Ongoing:</h4></center>
+					    	<center><h4 id="ongoing_count"></h4></center>
+				    	</a>
 				 	</div>
 		        </div>
 	      	</div>
@@ -76,7 +79,8 @@
 				dataType: "json",
 				success: function(data) {
 					console.log(data)
-					$("#trials").find('#complete_link').attr("href", "api/table?state="+geography.id)
+					$("#trials").find('#complete_link').attr("href", "api/completetable?state="+geography.id)
+					$("#trials").find('#ongoing_link').attr("href", "api/ongoingtable?state="+geography.id)
 					$('#trials').find('#complete_count').html(data["closed"]);
 					$('#trials').find('#ongoing_count').html(data["ongoing"]);
 					$("#trials").modal('show');

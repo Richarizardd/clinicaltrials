@@ -108,8 +108,9 @@ def completetableAPI(request):
 	data = ClinicalTrial.objects.filter(state=state, ongoing=False)
 
 	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
-	# data = [{'id': 1, 'name': 'John'}, {'id': 2, 'name': 'Tom'}]
-	# people = PersonTable(data)
+
+	completeTable = ClinicalTrialTable(ClinicalTrial.objects.filter(state=state, ongoing=False))
+
 	return render(request, 'clinicalsearch/table.html', {"completeTable": completeTable})
 
 def ongoingtableAPI(request):

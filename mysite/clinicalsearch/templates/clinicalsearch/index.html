@@ -15,82 +15,52 @@
     </div>
     <br><br><br>
 
-    <!-- Start of the form -->
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-        <form class="form-inline" role="form">
-          <label for="disease">Type of Disease</label>
+    <form>
+      <div class="row">
+        <div class="col-lg-4 text-left">
           <div class="form-group">
-            <input type="search" class="form-control" id="exampleInputDisease" placeholder="Ex. Heart Attacks">
-            <button type="submit" class="btn btn-theme search" id="search" onclick="queryDisease()">Search</button>
+            <label for="disease">Type of Disease</label>
+            <input type="text" class="form-control" id="disease" placeholder="Ex. Heart Attacks">
           </div>
-        </form>
-      </div>   
-
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-        <form class="form-inline" role="form">
-          <label for="state">State In USA</label>
+        </div>
+        <div class="col-lg-4 text-left">
           <div class="form-group">
-            <input type="search" class="form-control" id="exampleInputState" placeholder="Ex. CA">
-            <button type="submit" class="btn btn-theme search" id="search" onclick="queryState()">Search</button>
+            <label for="state">State in USA</label>
+            <input type="text" class="form-control" id="state" placeholder="Ex. CA">
           </div>
-        </form>
-      </div>
-    </div><!-- end of row  -->
-    <br><br>      
-
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-        <form class="form-inline" role="form">
-          <label for="minage">Minimum Age Required</label>
-          <div class="form-group">
-            <input type="search" class="form-control" id="exampleInputMinAge" placeholder="Ex. 26">
-            <button type="submit" class="btn btn-theme search" id="search">Search</button>
-          </div>
-        </form>
-      </div> 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right ">
-        <form class="form-inline" role="form">
-          <label for="maxage">Maximum Age Required</label>
-          <div class="form-group">
-            <input type="search" class="form-control" id="exampleInputMaxAge" placeholder="Ex. 70">
-            <button type="submit" class="btn btn-theme search" id="search">Search</button>
-          </div>
-        </form>
-      </div>  
-    </div> <!-- end of row  -->
-    <br><br>
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-        <form class="form-inline" role="form">
+        </div>
+        <div class="col-lg-4 text-left">
           <label for="gender">Gender</label>
-            <select class="form-control" id="exampleInputGender">
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-            <button type="submit" class="btn btn-theme search" id="search" onclick="queryGender()">Search</button>
-        </form>
+          <select class="form-control" id="gender">
+            <option>Both</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
       </div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-        <form class="form-inline" role="form">
-          <label for="state">Health</label>
+      <div class="row">
+        <div class="col-lg-4 text-left">
+          <label for="health">Health</label>
           <div class="form-group">
-            <select class="form-control" id="exampleInputHealth">
-              <option>Healthy Required</option>
-              <option>Healthy Not Required</option>
+            <select class="form-control" id="health">
+              <option>Accepts Healthy Volunteers</option>
+              <option>Must Be Ill</option>
             </select>
-            <button type="submit" class="btn btn-theme search" id="search">Search</button>
           </div>
-        </form>
-      </div>
-    </div> <!-- end of row  -->
-    <br><br><br>
-    <div class="text-center">
-      <p>Use the green search button if you want to search based on multiple query points (e.g. type of disease, min age, max age and gender).</p>
-      <label for"overall search">Overall Search</label>
-      <button type="submit" class="btn btn-success search" id="all-search" onclick="queryAll()">Search</button>
-    </div>
-    <br><br>
+        </div>
+        <div class="col-lg-2 text-left">
+          <label for="min_age">Minimum Age</label>
+          <input type="text" class="form-control" id="minAge" placeholder="Ex. 5">
+        </div>
+        <div class="col-lg-2 text-left">
+          <label for="max_age">Maximum Age</label>
+          <input type="text" class="form-control" id="maxAge" placeholder="Ex. 100">
+        </div>
+        <br><br><br>
+        <br><br><br>
+        <center><button type="submit" class="btn btn-primary btn-lg" id="all-search">Search</button></center>
+    </form>
+    <br><br><br><br><br><br><br>
   </div>
 </div>
 

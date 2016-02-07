@@ -7,10 +7,10 @@ import sys
 import unicodedata
 
 open_trials = stateQuery.get_state_trials()
-#closed_trials = stateQuery.get_closed_trials()
-trials = open_trials #+ closed_trials
+closed_trials = stateQuery.get_closed_trials()
+trials = open_trials + closed_trials
 print "Open trials: ", len(open_trials)
-#print "Closed trials: ", len(closed_trials)
+print "Closed trials: ", len(closed_trials)
 
 # Calculate sponsor rankings and write them to a csv file
 def sponsors_impact(sponsors_ctrials):
@@ -59,7 +59,7 @@ def test_sponsors_impact():
 # Scrape trials for data and write all trials to a csv file
 def trials_to_csv(trials):
 	counter = 0
-	sponsor_to_trials = {}
+#	sponsor_to_trials = {}
 	with open('trials.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile, delimiter=',')
 		for trial in trials:
@@ -97,19 +97,18 @@ def trials_to_csv(trials):
 			trial.published = published
 			trial.locations = locations
 			try: 
-				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, 
-				trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
-				trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health
+				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health
 
 				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, 
 					trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
-					trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
-				if sponsor not in sponsor_to_trials:
-					sponsor_to_trials[sponsor] = []
-				sponsor_to_trials[sponsor].append(trial)
+				# 	trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
+				# if sponsor not in sponsor_to_trials:
+				# 	sponsor_to_trials[sponsor] = []
+				# sponsor_to_trials[sponsor].append(trial)
 			except UnicodeEncodeError as ude:
 				print "unicode err"
 				continue
+
 
 
 trials_to_csv(trials)

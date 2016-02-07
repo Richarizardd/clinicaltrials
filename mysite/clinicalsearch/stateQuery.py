@@ -20,7 +20,7 @@ states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
 		 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas',
 		 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
-COUNT = 2 # the number of trials we want to query
+COUNT = 250 # the number of trials we want to query
 
 
 # TRIALS_LIST = []
@@ -99,13 +99,6 @@ def get_state_trials():
 			title = trial['title']
 			condition = trial['condition_summary']
 			intervention = trial['intervention_summary']
-
-			# check if open, or closed
-			is_closed = trial['status']['open']
-			if is_closed == "Y":
-				is_closed = True
-			elif is_closed == "N":
-				is_closed = False
 
 			# Create a ClinicalTrial Object to hold relevant data
 			clinical_meta_data = ClinicalTrial(nct_id, None, None, state, url, True, title, condition, intervention, None, last_changed, None, None, None, None)

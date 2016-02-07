@@ -3,12 +3,14 @@ from ClinicalTrial import ClinicalTrial
 import stateQuery
 import csv
 import requests
+import sys
+import unicodedata
 
 open_trials = stateQuery.get_state_trials()
-closed_trials = stateQuery.get_closed_trials()
-trials = open_trials + closed_trials
+#closed_trials = stateQuery.get_closed_trials()
+trials = open_trials #+ closed_trials
 print "Open trials: ", len(open_trials)
-print "Closed trials: ", len(closed_trials)
+#print "Closed trials: ", len(closed_trials)
 
 # Calculate sponsor rankings and write them to a csv file
 def sponsors_impact(sponsors_ctrials):
@@ -69,13 +71,39 @@ def trials_to_csv(trials):
 			published = True
 			if "No publications provided" in r.text:
 				published = False
-			locations = [location.text for location in soup.findAll("td", {"headers":"locName"})]	
+			locations = [location.text for location in soup.findAll("td", {"headers":"locName"})]
+			elgTypes = soup.findAll("td", {"headers":"elgType"})
+			elgData = soup.findAll("td", {"headers":"elgData"})
+			eligibility = {}
+			for i in range(0, len(elgTypes)):
+				eligibility[unicodedata.normalize('NFKD', elgTypes[i].text).encode('ascii','ignore')] = elgData[i].text
+			if "Ages Eligible for Study:   " in eligibility:
+				ages = eligibility["Ages Eligible for Study:   "]
+				trial.min_age = int(ages[0:ages.index(" ")])
+				if "older" in ages:
+					trial.max_age = sys.maxint
+				else:
+					trial.max_age = int(ages[ages[0:ages.rindex(" ")].rindex(" ")+1: ages.rindex(" ")])
+			else:
+				trial.min_age = 0
+				trial.max_age = sys.maxint
+			trial.genders = eligibility["Genders Eligible for Study:   "]
+			health = eligibility["Accepts Healthy Volunteers:   "]
+			if health == "Yes":
+				trial.health = True
+			else:
+				trial.health = False
 			trial.sponsor = sponsor
 			trial.published = published
 			trial.locations = locations
 			try: 
-				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed
-				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), trial.locations, trial.last_changed])
+				print trial.id, trial.sponsor, trial.published, trial.state, trial.url, 
+				trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
+				trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health
+
+				writer.writerow([trial.id, trial.sponsor, trial.published, trial.state, 
+					trial.url, trial.closed, trial.title, trial.condition, trial.intervention.encode('ascii', 'ignore'), 
+					trial.locations, trial.last_changed, trial.min_age, trial.max_age, trial.genders, trial.health])
 				if sponsor not in sponsor_to_trials:
 					sponsor_to_trials[sponsor] = []
 				sponsor_to_trials[sponsor].append(trial)

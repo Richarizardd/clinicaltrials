@@ -68,10 +68,8 @@ def contact(request):
 
 # works
 def map(request):
-	# jsonList = fill_states()
-	# get_sponsor_trials()
-	jsonList = {"test": "test"}
-	return render(request, 'clinicalsearch/map.html', {'datum': jsonList})
+	trial_table = ClinicalTrialTable()
+	return render(request, 'clinicalsearch/map.html', {'trial_table': trial_table})
 
 # not yet working
 def diseaseAPI(request):

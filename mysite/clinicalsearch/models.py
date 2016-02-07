@@ -12,6 +12,12 @@ class ClinicalTrial(models.Model):
 	intervention = models.TextField()
 	locations = models.TextField()
 	last_changed = models.TextField()
+	ranking = models.IntegerField()
+	min_age = models.IntegerField()
+	max_age = models.IntegerField()
+	genders = models.TextField()
+	health = models.BooleanField()
+
 
 class Contact(models.Model):
 	id = models.TextField(primary_key=True)

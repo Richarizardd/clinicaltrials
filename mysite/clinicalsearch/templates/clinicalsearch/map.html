@@ -1,6 +1,7 @@
 {% extends "clinicalsearch/base.html" %}
 {% block maincontent %}
 {% load staticfiles %}
+{% load table_tags %}
 
 <!-- D3 -->
 <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -22,7 +23,7 @@
 		          <h4>Trials</h4>
 		        </div>
 		        <div class="modal-body" id="modal-body" style="padding:40px 50px;">
-		          <p>Hello World</p>
+		          {% render_table table %}
 		        </div>
 	      	</div>
 	      

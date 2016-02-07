@@ -125,12 +125,9 @@ def searchAPI(request):
 				params["health"] = str(data["health"])
 				if data["health"] == "Must Be Ill":
 					trials = trials.filter(health=False)
-			if data["min_age"] != None:
-				params["min_age"] = int(data["disease"])
-				trials = trials.filter(min_age__gte=data["min_age"])
-			if data["max_age"] != None:
-				params["max_age"] = int(data["disease"])
-				trials = trials.filter(max_age__lte=data["max_age"])
+			if data["age"] != None:
+				params["age"] = int(data["age"])
+				trials = trials.filter(min_age__lte=params["age"], max_age__gte=params["age"])
 			if data["state"] != '':
 				print "here"
 				ongoingTable = ClinicalTrialTable(trials.filter(state=data["state"], ongoing=True))
@@ -182,9 +179,8 @@ def statemapAPI(request):
 	print health
 	condition = request.GET.get('condition')
 	print condition
-	min_age = request.GET.get('min_age')
-	print min_age
-	max_age = request.GET.get('max_age')
+	age = request.GET.get('age')
+	print age
 	closed = ClinicalTrial.objects.filter(state=state, ongoing=False)
 	ongoing = ClinicalTrial.objects.filter(state=state, ongoing=True)
 	print len(ongoing)
@@ -204,14 +200,10 @@ def statemapAPI(request):
 		closed = closed.filter(health=False)
 		ongoing = ongoing.filter(health=False)
 		print "health ", len(ongoing)
-	if min_age != None:
-		closed = closed.filter(min_age__gte=min_age)
-		ongoing = ongoing.filter(min_age__gte=min_age)
-		print "min_age ", len(ongoing)
-	if max_age != None:
-		closed = closed.filter(max_age__lte=max_age)
-		ongoing = ongoing.filter(max_age__lte=max_age)
-		print "max_age ", len(ongoing)
+	if age != None:
+		closed = closed.filter(min_age__lte=age, max_age__gte=age)
+		ongoing = ongoing.filter(min_age__lte=age, max_age__gte=age)
+		print "age ", len(ongoing)
 
 	# closed = ClinicalTrial.objects.filter(state=state, ongoing=False, genders=genders, sponsor=sponsor, health=health, condition__contains=condition, min_age=min_age, max_age=max_age)
 	# ongoing = ClinicalTrial.objects.filter(state=state, ongoing=True, genders=genders, sponsor=sponsor, health=health, condition__contains=condition, min_age=min_age, max_age=max_age)
@@ -232,9 +224,8 @@ def completetableAPI(request):
 	print health
 	condition = request.GET.get('condition')
 	print condition
-	min_age = request.GET.get('min_age')
-	print min_age
-	max_age = request.GET.get('max_age')
+	age = request.GET.get('age')
+	print age
 
 	print len(data)
 	if condition != None:
@@ -249,12 +240,9 @@ def completetableAPI(request):
 	if health == "Must Be Ill":
 		data = data.filter(health=False)
 		print "health ", len(data)
-	if min_age != None:
-		data = data.filter(min_age__gte=min_age)
-		print "min_age ", len(data)
-	if max_age != None:
-		data = data.filter(max_age__lte=max_age)
-		print "max_age ", len(data)
+	if age != None:
+		data = data.filter(min_age__lte=age, max_age__gte=age)
+		print "age ", len(data)
 
 	completeTable = ClinicalTrialTable(data)
 
@@ -277,9 +265,8 @@ def ongoingtableAPI(request):
 	print health
 	condition = request.GET.get('condition')
 	print condition
-	min_age = request.GET.get('min_age')
-	print min_age
-	max_age = request.GET.get('max_age')
+	age = request.GET.get('age')
+	print age
 
 	print len(data)
 	if condition != None:
@@ -294,12 +281,9 @@ def ongoingtableAPI(request):
 	if health == "Must Be Ill":
 		data = data.filter(health=False)
 		print "health ", len(data)
-	if min_age != None:
-		data = data.filter(min_age__gte=min_age)
-		print "min_age ", len(data)
-	if max_age != None:
-		data = data.filter(max_age__lte=max_age)
-		print "max_age ", len(data)
+	if age != None:
+		data = data.filter(min_age__lte=age, max_age__gte=age)
+		print "age ", len(data)
 	
 	ongoingTable = ClinicalTrialTable(data)
 	return render(request, 'clinicalsearch/table.html', {"ongoingTable": ongoingTable})

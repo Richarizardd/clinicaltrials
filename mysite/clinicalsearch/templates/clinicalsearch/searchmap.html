@@ -70,8 +70,7 @@
 		var sponsor = params["sponsor"];
 		var health = params["health"];
 		var condition = params["disease"];
-		var min_age = params["min_age"];
-		var max_age = params["max_age"];
+		var age = params["age"];
 		var query_params = ""
 		if (gender != undefined)
 			query_params += "genders=" + gender 
@@ -81,10 +80,8 @@
 			query_params += "&health=" + health
 		if (condition != undefined)
 			query_params += "&condition=" + condition
-		if (min_age != undefined)
-			query_params += "&min_age=" + min_age
-		if (max_age != undefined)
-			query_params += "&max_age=" + max_age
+		if (age != undefined)
+			query_params += "&age=" + age
 
 		// create a colorscale
 		var colorScale = d3.scale.linear()
@@ -121,7 +118,7 @@
 			$.ajax({
 				type:'get',
 				url: '/api/statemap/',
-				data: {state: geography.id, gender: gender, sponsor: sponsor, health: health, condition: condition, min_age: min_age, max_age: max_age},
+				data: {state: geography.id, gender: gender, sponsor: sponsor, health: health, condition: condition, age: age},
 				dataType: "json",
 				success: function(data) {
 					console.log(data)

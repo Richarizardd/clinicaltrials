@@ -49,6 +49,51 @@ n1$save("graph1.html", 'inline', standalone=TRUE)
 
 
 
+
+
+
+
+
+
+dPie <- rCharts$new()
+dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
+#do once to add assets with slidify
+cat(add_lib_assets(dPie$lib,cdn=T))
+starData <- data.frame(
+  label = c("rCharts","slidify","rMaps"),
+  value = c(484,318,137)
+)
+dPie$addParams(
+  chartspec = list(
+    header = list(
+      title = list(
+        text = "Star Count of Ramnath Repos"
+      )
+    )
+    ,data = list(
+      content = starData
+    )
+  )
+)
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
+
+expDF <- colnames(trials2)
+for (i in 1:100)
+{
+  line <- trials2[i,]
+  conditions <- strsplit(line[i,9], "; ")[[1]]
+  
+  for (j in 1:length(conditions)) {
+    line[i,9] <- conditions[j]
+    expDF <- cbind(expDF, line)
+  }
+}
+
+
+
+
+
 weighted_lambda_normalization <- function(total_published, total_trials, max, lambda) {
   lambda*total_published/total_trials-(1-lambda)*(max-total_published)/max
 }

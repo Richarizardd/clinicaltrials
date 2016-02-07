@@ -9,6 +9,7 @@ urlpatterns = [
 	url(r'^problem', views.problem, name='problem'),
 	url(r'^map', views.map, name='map'),
 	url(r'^contact', views.contact, name='contact'),
+	url(r'^graph1', views.graph1, name='graph1'),
 
 	# Data Processing URLs
 	url(r'^api/search', views.searchAPI, name='searchAPI'),

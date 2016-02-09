@@ -15,6 +15,7 @@ class ContactForm(forms.ModelForm):
 		self.fields['contact_phone'].label = "Your phone number:"
 		self.fields['content'].label = "What disease clinical trials are you interested in?"
 
+# Form for the search
 class SearchForm(forms.Form):
 	disease = forms.CharField(max_length=100, required=False)
 	sponsor = forms.CharField(max_length=100, required=False)

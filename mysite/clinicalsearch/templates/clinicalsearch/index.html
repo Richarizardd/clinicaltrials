@@ -11,6 +11,15 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
         <h1>Clinical Search Index</h1>
       </div>
+      <p>
+        Use the following search parameters to find a relevant clinical trial happening in the USA. Not all parameters need to be filled out! The original data is pulled from clinicaltrials.gov and their API, but most data points were scraped after API calls gave us some basic data.
+        <br><br>
+        A limitation is you need to enter the exact sponsor's name if you want to search by sponsor. 
+        <br><br>
+        States need to be entered by their abbreviation. 
+        <br><br>
+        Example search: "cancer", "25" 
+      </p>
     </div>
     <br><br><br>
     <form action="api/search/" method="post">
@@ -20,51 +29,7 @@
         <input type="submit" value="Submit" />
       </center>
   </form>
-    <!-- <form>
-      <div class="row">
-        <div class="col-lg-4 text-left">
-          <div class="form-group">
-            <label for="disease">Type of Disease</label>
-            <input type="text" class="form-control" id="disease" placeholder="Ex. Heart Attacks">
-          </div>
-        </div>
-        <div class="col-lg-4 text-left">
-          <div class="form-group">
-            <label for="state">State in USA</label>
-            <input type="text" class="form-control" id="state" placeholder="Ex. CA">
-          </div>
-        </div>
-        <div class="col-lg-4 text-left">
-          <label for="gender">Gender</label>
-          <select class="form-control" id="gender">
-            <option>Both</option>
-            <option>Male</option>
-            <option>Female</option>
-          </select>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 text-left">
-          <label for="health">Health</label>
-          <div class="form-group">
-            <select class="form-control" id="health">
-              <option>Accepts Healthy Volunteers</option>
-              <option>Must Be Ill</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-lg-2 text-left">
-          <label for="min_age">Minimum Age</label>
-          <input type="text" class="form-control" id="minAge" placeholder="Ex. 5">
-        </div>
-        <div class="col-lg-2 text-left">
-          <label for="max_age">Maximum Age</label>
-          <input type="text" class="form-control" id="maxAge" placeholder="Ex. 100">
-        </div>
-        <br><br><br>
-        <br><br><br>
-        <center><button type="submit" class="btn btn-primary btn-lg" id="all-search">Search</button></center>
-    </form> -->
+
     <br><br><br><br><br><br><br><br>
   </div>
 

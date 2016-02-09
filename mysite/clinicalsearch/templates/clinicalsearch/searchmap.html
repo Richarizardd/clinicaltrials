@@ -10,6 +10,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
 
+	<br><br><br>
+	<div id="descript" style="position: relative; text-align: center;">
+		This map shows you a heat map distributions of active clinical trials over the USA. This is based on your querying from the previous page. This is helpful to visualize the activity of clinical trials within the USA. It will also help you determine which state has the most amount of trials relevant to your disease!
+	</div>
+	<br>
+
 	<!-- Where the map goes -->
 	<div id="map" style="position: relative;"></div>
 	
@@ -102,6 +108,37 @@
 
     		}
 		});//end of map
+		
+		svg = d3.select('svg')
+
+		var legend = svg.selectAll('g.legendEntry')
+		    .data(colorScale.range())
+		    .enter()
+		    .append('g').attr('class', 'legendEntry');
+
+		legend
+		    .append('rect')
+		    .attr("x", 500)
+		    .attr("y", function(d, i) {
+		       return i * 20;
+		    })
+		   .attr("width", 10)
+		   .attr("height", 10)
+		   .style("stroke", "black")
+		   .style("stroke-width", 1)
+		   .style("fill", function(d){return d;}); 
+
+		 legend
+		 	.data(colorScale.domain())
+		    .append('text')
+		    .attr("x", 530) //leave 5 pixel space after the <rect>
+		    .attr("y", function(d, i) {
+		       return i * 20;
+		    })
+		    .attr("dy", "0.8em") //place text one line *below* the x,y point
+		    .text(function(d,i) {
+		        return colorScale.domain()[i];
+		    });
 		
 		map.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
 			var m = {};

@@ -6,16 +6,6 @@ import requests
 import sys
 import unicodedata
 
-# run code to get all the data into csv file
-
-open_trials = stateQuery.get_state_trials()
-closed_trials = stateQuery.get_closed_trials()
-trials = open_trials + closed_trials
-print "Open trials: ", len(open_trials)
-print "Closed trials: ", len(closed_trials)
-trials_to_csv(trials)
-#test_sponsors_impact()
-
 
 # Calculate sponsor rankings and write them to a csv file
 def sponsors_impact(sponsors_ctrials):
@@ -123,6 +113,14 @@ def trials_to_csv(trials):
 
 
 
+# run code to get all the data into csv file
 
+open_trials = stateQuery.get_state_trials()
+closed_trials = stateQuery.get_closed_trials()
+trials = open_trials + closed_trials
+print "Open trials: ", len(open_trials)
+print "Closed trials: ", len(closed_trials)
+trials_to_csv(trials)
+#test_sponsors_impact()
 
 		

@@ -22,45 +22,6 @@ states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 
 
 COUNT = 5000 # the number of trials we want to query
 
-
-# TRIALS_LIST = []
-
-# 01: Function to query number of recruiting clinical trials for each state
-def fill_states():
-	# create a clinical trials object for searching
-	t = Trials()
-	jsonList = {} 	# json list to store number of trials/state
-	trialsList = []	# list to store all 50 state's active clinical trials
-
-	for index in range(0, len(states_abbrev)):
-		trials = t.search(recruiting='open', count=COUNT, state=states_abbrev[index])['search_results']['clinical_study']
-
-		state = states_abbrev[index] # the state abbreviation
-		numTrials = len(trials)		 # number of trials per state
-
-		# Create the json object to be returned
-		jsonList[state] = {"numTrials": numTrials}
-
-		# create a whole number of lists for passing in urls/etc.
-		trialsList.append(trials) 
-
-	TRIALS_LIST = trialsList
-	print "Length of trials list: ", len(trialsList)			
-
-	print "Success in fill_states!"
-
-	return jsonList
-
-# # 02: Function to return clinical trial meta data for a certain state
-# def get_recruitment_data(state):
-# 	# create a clinical trials object for searching
-# 	t = Trials()
-# 	recruiting_trials = t.search(state=state, recruiting='open', count=COUNT)['search_results']['clinical_study']
-
-# 	print "Success in calling get_recruitment_data!"
-
-# 	return (recruiting_trials)
-
 # 03: Function to help populate db with clinicaltrial objects
 def get_state_trials():
 	# trialsList = TRIALS_LIST
@@ -107,6 +68,30 @@ def get_state_trials():
 
 	return clinical_meta_list
 
+# Gets closed trials for each state
+def get_closed_trials():
+	t = Trials()
+	clinical_trials = []
+	for state in states_abbrev:
+		closed_trials = t.search(recruiting='closed', count=COUNT, state=state)['search_results']['clinical_study']
+		for trial in closed_trials:
+			if 'intervention_summary' not in trial:
+				continue
+			# Get the trial ID, url
+			nct_id = trial['nct_id']
+			url = trial['url']
+			title = trial['title']
+			condition = trial['condition_summary']
+			intervention = trial['intervention_summary']
+			last_changed = trial['last_changed']
+
+			# Create a ClinicalTrial Object to hold relevant data
+			clinical_trial = ClinicalTrial(nct_id, None, None, state, url, False, title, condition, intervention, None, last_changed, None, None, None, None)
+			
+			# Add object to a list
+			clinical_trials.append(clinical_trial)
+
+	return clinical_trials
 
 # # 04: Function to return a list of trials by sponsor (restricted to USA for now)
 # def get_sponsor_trials():
@@ -170,30 +155,4 @@ def get_state_trials():
 # 			sponsorList.append(line)
 
 # 	return clinical_meta_list
-
-# Gets closed trials for each state
-def get_closed_trials():
-	t = Trials()
-	clinical_trials = []
-	for state in states_abbrev:
-		closed_trials = t.search(recruiting='closed', count=COUNT, state=state)['search_results']['clinical_study']
-		for trial in closed_trials:
-			if 'intervention_summary' not in trial:
-				continue
-			# Get the trial ID, url
-			nct_id = trial['nct_id']
-			url = trial['url']
-			title = trial['title']
-			condition = trial['condition_summary']
-			intervention = trial['intervention_summary']
-			last_changed = trial['last_changed']
-
-			# Create a ClinicalTrial Object to hold relevant data
-			clinical_trial = ClinicalTrial(nct_id, None, None, state, url, False, title, condition, intervention, None, last_changed, None, None, None, None)
-			
-			# Add object to a list
-			clinical_trials.append(clinical_trial)
-
-	return clinical_trials
-
 
